@@ -17,11 +17,16 @@
 ///   history: (
 ///     (
 ///       meeting: "VTM-extra 2022",
-///       change: "Tillämpade Dijkstra på attesträttsgrafen",
+///       change: [Tog bort kapitlet om "kreativ bokföring"],
 ///       who: "Styrelsen genom Truls Teknolog",
 ///     ),
-///   )
+///   ),
 /// )
+///
+/// = Sektionsbil
+///
+/// // highlight to show diff
+/// Sektionsbilen är i särklass sektionens #remove[mest]#add[minst] värdefulla ägodel.
 ///
 /// = Bokslut
 ///
@@ -37,6 +42,7 @@
 /// - lang (str): The language of the document (same format as `text.lang`).
 ///               Only "sv" and "en" are supported.
 /// - date (datetime): The date at which the document was written.
+/// - use-cover-page (bool): Whether to render the title on a separate cover page instead of a heading.
 /// - body (content): The body of the document.
 ///
 /// -> content
@@ -48,13 +54,14 @@
   history: (),
   date: datetime.today(),
   lang: "sv",
+  use-cover-page: false,
   body,
 ) = {
   required(subject, "subject", fn: "policy")
   let policy-name = "Policy"
 
   governing-document(
-    title: [#policy-name #translate("för", "for") #subject],
+    title: if use-cover-page { subject } else [#policy-name #translate("för", "for") #subject],
     summary: summary,
     purpose: purpose,
     scope: scope,
@@ -62,6 +69,7 @@
     date: date,
     lang: lang,
     doc-type: policy-name,
+    use-cover-page: use-cover-page,
     body,
   )
 }

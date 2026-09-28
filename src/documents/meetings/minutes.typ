@@ -2,8 +2,10 @@
 #import "../../lib/_mod.typ": *
 
 #let attendance(..names) = {
+  show grid.cell: set par(justify: false)
   grid(
-    columns: 3,
+    columns: (auto, auto, 1fr, auto),
+    align: (auto, auto, auto, right),
     row-gutter: 0.55em,
     column-gutter: 1em,
     stroke: none,
@@ -12,16 +14,35 @@
       .enumerate()
       .map(xi => {
         let (i, name-pos) = xi
-        let (name, position) = if type(name-pos) == array {
-          assert(
-            name-pos.len() <= 2,
-            message: "attendance: attendee entry has "
-              + str(name-pos.len())
-              + " elements, expected at most 2\n  hint: each entry is (name, position) or just a name, e.g. (\"Truls Teknolog\", \"Kårkontakt\") or just \"Truls Teknolog\"",
-          )
-          name-pos
+        let (name, position, when) = if type(name-pos) == array {
+          if (name-pos.len() == 1) {
+            (..name-pos, none, (:))
+          } else if (name-pos.len() == 2) {
+            if type(name-pos.at(1)) == dictionary {
+              required-keys(name-pos.at(1), (), allowed: ("from", "to"), fn: "attendance")
+              (name-pos.at(0), none, name-pos.at(1))
+            } else {
+              (..name-pos, (:))
+            }
+          } else if (name-pos.len() == 3) {
+            required-keys(name-pos.at(2), (), allowed: ("from", "to"), fn: "attendance")
+            name-pos
+          } else {
+            assert(
+              name-pos.len() <= 3,
+              message: "attendance: attendee entry has "
+                + str(name-pos.len())
+                + " elements, expected at most 3\n  hint: each entry is either just a name, (name, position) or (name, position, (from?: ..., to?: ...)), e.g."
+                + "\n   - \"Truls Teknolog\" "
+                + "\n   - (\"Truls Teknolog\", \"Kårkontakt\") "
+                + "\n   - (\"Truls Teknolog\", \"Kårkontakt\", (from: [@tmfö]))",
+              +"\n   - (\"Truls Teknolog\", \"Kårkontakt\", (to: [@utskottsrapporter]))",
+              +"\n   - (\"Truls Teknolog\", \"Kårkontakt\", (from: [@tmfö], to: [@utskottsrapporter]))",
+            )
+            name-pos
+          }
         } else {
-          (name-pos, none)
+          (name-pos, none, (:))
         }
 
         (
@@ -36,6 +57,24 @@
             #heading(name, supplement: position) #label(to-label(name))
           ],
           position,
+          {
+            let (from, to) = (when.at("from", default: none), when.at("to", default: none))
+            context [
+              #if (from, to) != (none, none) { translate-str("närvarande", "present") }
+              #if from != none and to == none [
+                #translate-str("fr.o.m", "from") #from
+              ] else if from == none and to != none [
+                #translate-str("t.o.m", "until") #to
+              ] else if from != none and to != none [
+                #from -- #to
+              ] else []
+            ]
+          },
+          // if when.len() == 0 [] else [
+          //   #box(width: 1.5em, align(right, when.at("from", default: none)))
+          //   #sym.dash.en
+          //   #box(width: 1.5em, align(left, when.at("to", default: none)))
+          // ],
         )
       })
       .flatten()
@@ -55,16 +94,18 @@
 ///
 /// === Example:
 /// ```typst
-/// #show: minutes.with(
+/// #show: protokoll.with(
 ///   meeting: "S06",
-///   attendance: (
+///   attendees: (
 ///     ("Truls Teknolog", styr.ordf),
-///     ("Trula Teknolog", infu.mastare),
+///     ("Trula Teknolog", infu.ansv),
+///     ("Råsa Pantern", "Sektionsmaskot", (from: [@tid-och-sätt], to: [@val-av-justerare])),
 ///     "Pelle Postlös", // name only, no position
 ///   ),
+///   attested: false, // default; set to true to remove watermark
 ///   chair: [@trulsteknolog],
 ///   secretary: [@trulateknolog],
-///   reviewers: ([@pellepostlös],),
+///   reviewers: ([@pellepostlös],), // one or more
 /// )
 ///
 /// / OFMÖ:
@@ -84,9 +125,24 @@
 ///   @trulateknolog drog en ordvits.
 ///
 /// / Uppföljning\: Veckans roliga punkt:
+///
 ///   @pellepostlös yrkade på
 ///   - att stryka @veckans-roliga-punkt från protokollet
 ///   Mötet avslog yrkandet.
+///
+///   @trulateknolog yrkade på
+///   - att åligga @pellepostlös att "komma på något bättre själv då" med uppföljning till nästa styrelsemöte.
+///   Mötet biföll yrkandet.
+///
+/// / OFMA:
+///   @trulsteknolog förklarade mötet avslutat 12:18
+///
+/// Efter mötet såg beslutsuppföljningslistan ut enligt följande:
+///
+/// #followup(
+///   ("S03", [Hitta den försvunna sektionsdiamanten], [Råsa Pantern], "HTM1"),
+///   ("S06", [Kom på en bättre ordvits än Trula], [@pellepostlös], "S07"),
+/// )
 /// ```
 ///
 /// - meeting (str, content): The meeting for which the document was written, e.g. `"HTM1"`.
@@ -126,22 +182,37 @@
     fn: "minutes",
     hint: "array of (name, position) pairs, e.g. ((\"Truls Teknolog\", \"Kårkontakt\"),)",
   )
-  if type(attendees) != array {
-    panic(
-      "minutes: `attendees` must be an array, not "
-        + type(attendees)
-        + "\n  hint: each entry is (name, position) or just a name, e.g. (\"Truls Teknolog\", \"Kårkontakt\") or just \"Truls Teknolog\"",
-    )
-  }
+  assert(
+    type(attendees) == array,
+    message: "minutes: `attendees` must be an array, not "
+      + str(type(attendees))
+      + "\n  hint: each entry is (name, position) or just a name, e.g. (\"Truls Teknolog\", \"Kårkontakt\") or just \"Truls Teknolog\"",
+  )
   required(chair, "chair", fn: "minutes")
   required(secretary, "secretary", fn: "minutes")
+
+  let check-presiders(author) = if type(author) == dictionary {
+    required-keys(
+      author,
+      ("name",),
+      allowed: ("name", "position", "message", "signature"),
+      fn: "author-signatures",
+      hint: "each author dict needs at least `name`, e.g. (name: \"Truls Teknolog\", position: \"Gammal och dryg\") -- `position`, `message`, and `signature` are optional (but have default values)",
+    )
+    author
+  } else {
+    (name: author)
+  }
+
+  let chair = check-presiders(chair)
+  let secretary = check-presiders(secretary)
 
   let watermark = if not attested {
     set align(center + horizon)
     show rotate: set block(width: 150%)
     rotate(-45deg, text(
       size: 100pt,
-      fill: luma(95%),
+      fill: luma(93%),
       weight: "bold",
       translate("OJUSTERAT", "UNATTESTED"),
     ))
@@ -176,13 +247,15 @@
     row-gutter: 2em,
     signature(
       translate("Vid protokollet", "Recorded by"),
-      secretary,
+      secretary.name,
       translate("Mötessekreterare", "Meeting secretary"),
+      image: secretary.at("signature", default: none),
     ),
     signature(
       translate("Vid mötet", "Presided by"),
-      chair,
+      chair.name,
       translate("Mötesordförande", "Meeting chair"),
+      image: chair.at("signature", default: none),
     ),
     ..reviewers.map(reviewer => context {
       signature(
@@ -194,5 +267,5 @@
   )
 }
 
-/// Swedish binding for minutes
+/// Swedish binding for `minutes`
 #let protokoll = minutes

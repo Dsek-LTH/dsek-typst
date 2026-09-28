@@ -10,7 +10,7 @@
 ///
 /// === Example
 /// ```typst
-/// #show: plan-of-operations
+/// #show: plan-of-operations // `Overview` section inserted automatically
 ///
 /// = Mål från de strategiska målen
 ///
@@ -22,7 +22,7 @@
 /// - overview-overrides (dict): A dictionary of overrides in the Overview section.
 ///                              Available keys are `summary`, `purpose`, `structure`,
 ///                              `responsibility` and `reporting`.
-/// - year (int): The year for which the plan was written.
+/// - year (int): The year for which the plan was written. Defaults to next year.
 /// - lang (str): The language of the document (same format as `text.lang`).
 ///               Only "sv" and "en" are supported.
 /// - date (datetime): The date at which the document was written.
@@ -47,6 +47,7 @@
       "reporting",
     ),
     fn: "plan-of-operations",
+    hint: "must be one of `summary`, `purpose`, `structure`, `responsibility` or `reporting`",
   )
 
   let plan-name = translate("Verksamhetsplan", "Plan of Operations")
@@ -102,5 +103,5 @@
   body
 }
 
-/// Swedish binding plan-of-operations
+/// Swedish binding for `plan-of-operations`
 #let verksamhetsplan = plan-of-operations

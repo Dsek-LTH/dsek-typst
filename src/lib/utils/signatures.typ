@@ -30,7 +30,7 @@
     width: width,
   )[
     #message \
-    #box(height: signature_height, image) \
+    #box(height: signature_height, align(horizon, image)) \
     #name \
     #position \
   ]
@@ -51,9 +51,9 @@
         required-keys(
           author,
           ("name",),
-          allowed: ("name", "position", "message", "image"),
+          allowed: ("name", "position", "message", "signature"),
           fn: "author-signatures",
-          hint: "each author dict needs at least `name`, e.g. (name: \"Truls Teknolog\", position: \"Gammal och dryg\") -- `position`, `message`, and `image` are optional (but have default values)",
+          hint: "each author dict needs at least `name`, e.g. (name: \"Truls Teknolog\", position: \"Gammal och dryg\") -- `position`, `message`, and `signature` are optional (but have default values)",
         )
         author
       } else {
@@ -89,7 +89,7 @@
         message,
         box(name),
         position,
-        image: author.at("image", default: none),
+        image: author.at("signature", default: none),
       )
     })
   )

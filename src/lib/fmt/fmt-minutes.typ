@@ -26,7 +26,7 @@
             §#n
           ],
           {
-            set heading(depth: ref-id.minute, numbering: none, outlined: true, supplement: str(n))
+            set heading(depth: ref-id.minute, numbering: none, outlined: false, bookmarked: true, supplement: str(n))
             show heading: set text(size: text.size, weight: text.weight, font: text.font)
             show heading: set par(justify: false)
             [#heading(item.term) #label(to-label(to-text(item.term), sep: "-"))]

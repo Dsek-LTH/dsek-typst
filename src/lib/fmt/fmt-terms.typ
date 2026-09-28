@@ -1,3 +1,6 @@
+#import "../misc/text.typ": to-label, to-text
+#import "fmt-references.typ": ref-id
+
 /// Manually emulates the default styling of `terms` in order to "undo" `terms-fmt`.
 #let old-terms(unstyled) = {
   set par(hanging-indent: unstyled.hanging-indent)
@@ -37,6 +40,7 @@
         },
         {
           show terms: old-terms
+          set enum(numbering: "a)", spacing: 1.2em)
           item.description
         },
       )
@@ -46,8 +50,19 @@
           let numbers = counter(heading).get().map(str).join(".")
           if numbers != "0" [#numbers.]
         }
+        let last-heading-text = query(selector(heading).before(here())).last().body
 
-        column.insert(0)[§#last-heading-numbers#n]
+        column.insert(0)[
+          #set heading(
+            depth: ref-id.minute,
+            numbering: none,
+            outlined: false,
+            bookmarked: true,
+            supplement: [#last-heading-numbers#n],
+          )
+          #show heading: none
+          #heading[#item.term]#label(to-label(to-text(last-heading-text) + "-" + to-text(item.term), sep: "-"))§#last-heading-numbers#n
+        ]
       }
 
       column

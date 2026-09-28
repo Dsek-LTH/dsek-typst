@@ -2,6 +2,8 @@
 
 // TODO: Prettify/regularise the keys.
 
+// Governed by Riktlinje för internationalisering
+
 #let guild = (
   "dsek": translate([D-sektionen], [The D-guild]),
   "dseklth": translate([D-sektionen inom TLTH], [The D-guild within TLTH]),
@@ -20,14 +22,15 @@
 
 #let aktu = (
   "name": translate([Aktivitets-?utskottet], [The Recreation Com-?mittee]),
-  "mastare": translate([Aktivitets-?ansvarig], [Head of Recreation]),
-  "vice_mastare": translate([Vice Aktivitets-?ansvarig], [Vice Head of Recreation]),
-  "dischoansv": translate([UtEDischo-?ansvarig], [UtEDischo Manager]),
+  "ansv": translate([Aktivitets-?ansvarig], [Head of Recreation]),
+  "vice_ansv": translate([Vice Aktivitets-?ansvarig], [Vice Head of Recreation]),
+  "utedischoansv": translate([UtEDischo-?ansvarig], [UtEDischo Manager]),
   "idrottsfm": translate([Idrotts-?förman], [Head of Sports Events]),
   "dsportare": translate([D-sportare], [Tournament Organizer]),
   "karnevalsansv": translate([Karnevals-?ansvarig], [Lundakarnevalen Repre-?sentative]),
   "lanpartyansv": translate([LAN-party-?ansvarig], [LAN-party Coor-?dinator]),
   "semester": translate([Semester-?firare], [Holiday-?maker]),
+  "sasfm": translate([Sångar-?strids-?förman], [TLTH Song Contest Team Captain]),
   "tandemgen": translate([Tandem-?general], [Tandem Relay Team Captain]),
   "nojesfm": translate([Nöjes-?förman], [Chief of Joy]),
   "coach": translate([Coach], [Coach]),
@@ -35,8 +38,8 @@
 
 #let infu = (
   "name": translate([Informations-?utskottet], [The Communi-?cations Com-?mittee]),
-  "mastare": translate([Informations-?ansvarig], [Head of Communi-?cations]),
-  "vice_mastare": translate([Vice Informations-?ansvarig], [Vice Head of Communi-?cations]),
+  "ansv": translate([Informations-?ansvarig], [Head of Communi-?cations]),
+  "vice_ansv": translate([Vice Informations-?ansvarig], [Vice Head of Communi-?cations]),
   "fotograf": translate([Fotograf], [Photographer]),
   "filmare": translate([Filmare], [Filmmaker]),
   "arkivarie": translate([Arkivarie], [Archivist]),
@@ -94,11 +97,14 @@
 
 #let naru = (
   "name": translate([Näringslivs-?utskottet], [The Corpo-?rate Rela-?tions Com-?mittee]),
-  "mastare": translate([Näringslivs-?ansvarig], [Head of Corpo-?rate Rela-?tions]),
-  "vice_mastare": translate([Vice näringslivs-?ansvarig], [Vice Head of Corpo-?rate Rela-?tions]),
+  "ansv": translate([Näringslivs-?ansvarig], [Head of Corpo-?rate Rela-?tions]),
+  "vice_ansv": translate([Vice näringslivs-?ansvarig], [Vice Head of Corpo-?rate Rela-?tions]),
   "alumniansv": translate([Alumni-?grupps-?ansvarig], [Head of the Alumni Com-?mittee]),
   "aulmnimdlm": translate([Alumni-?grupps-?medlem], [Member of the Alumni Com-?mittee]),
   "koordinator": translate([Näringslivs-?koordinator], [Corpo-?rate Rela-?tions Coor-?dinator]),
+  "deltag": translate([DELTA-general], [DELTA Project Manager]),
+  "deltapr": translate([DELTA-projektledare], [Member of the DELTA Project Group]),
+  "deltav": translate([DELTA-general], [DELTA Host]),
 )
 
 #let sexm = (
@@ -142,7 +148,7 @@
 
 #let medalj = (
   "name": translate([Medeljelele-?kommitén], [The Honours Com-?mittee]),
-  "mastare": translate([Øver-?marskalk], [Master of Ceremonies]),
+  "omslk": translate([Øver-?marskalk], [Master of Ceremonies]),
   "mdlm": translate([Medaljelele-?kommité-?medlem], [Member of the Honours Com-?mittee]),
 )
 
@@ -171,6 +177,7 @@
   "revisor": translate([Revisor], [Auditor]),
   "talman": translate([Talman], [Assembly speaker]),
   "jublegeneral": translate([Jubileums-?general], [Head of the Anniversary Com-?mittee]),
+  "jubleansv": translate([Jubileums-?ansvarig], [Member of the Anniversary Com-?mittee]),
 )
 
 #let lth-symbols = (

@@ -5,13 +5,13 @@
 /// Creates a requirements profile (kravprofil) for an elected position. Apply with `#show: kravprofil.with(...)` or `#show: requirements-profile.with(...)`.
 ///
 /// === Notes
-/// - Body content is shown as a preamble above the requirements table. Requirements and merits are rendered as a two-column bullet list at the end.
-/// - The mandate period defaults to the full calendar year of the `year` parameter if not set explicitly.
+/// - A mandate-period row is rendered first, then the body as a preamble, and finally the requirements and merits as a two-column bullet list.
+/// - The mandate period defaults to the full calendar year of `year` (Jan 1 – Dec 31) when `mandate` is left at its default `auto`.
 ///
 /// === Example
 /// ```typst
 /// #show: requirements-profile.with(
-///   position: strings.styr.ordf,  // or a plain string: "Vice ordförande"
+///   position: strings.styr.ordf, // or a plain string: "Ordförande"
 ///   requirements: (
 ///     "Godkänd i B2",
 ///   ),
@@ -20,7 +20,10 @@
 ///     "Tidigare ordföranderoll i studentförening",
 ///   ),
 ///   year: 2025,
-///   mandate: auto  // set to `auto` for default of jan 1 – dec 31
+///   mandate: ( // set to `auto` or omit for default of jan 1 – dec 31
+///     from: date(1, 7, 2026),
+///     to: date(30, 6, 2027),
+///   ),
 /// )
 ///
 /// Ordförande leder sektionens styrelse och representerar sektionen utåt.
@@ -76,11 +79,16 @@
   let mandate = if mandate == auto {
     (from: default-start, to: default-stop)
   } else {
+    let hint = "use e.g `mandate: (from: date(1, 7, 2026), to: date(31, 6, 2027))`, or set mandate: auto for the full calendar year"
+    assert(
+      type(mandate) == dictionary,
+      message: "mandate must be a dictionary\n  hint: " + hint,
+    )
     required-keys(
       mandate,
       ("from", "to"),
       fn: "requirements-profile (mandate)",
-      hint: "mandate: (from: date(1, 7, 2026), to: date(31, 6, 2027)), or set mandate: auto for the full calendar year",
+      hint: hint,
     )
     mandate
   }
@@ -108,5 +116,5 @@
   )
 }
 
-/// Swedish binding for requirements-profile
+/// Swedish binding for `requirements-profile`
 #let kravprofil = requirements-profile

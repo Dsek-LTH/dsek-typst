@@ -28,23 +28,7 @@
   )
 
   set document(author: authors.map(a => a.name))
-  show par: it => context {
-    let pattern = regex(
-      if text.lang == "sv" {
-        "(?i)yrka(.*)(på|beslut(a?))"
-      } else if text.lang == "en" {
-        "(?i)(move(s?)|decide)"
-      } else {
-        "a^"
-      },
-    )
-    if to-text(it).ends-with(pattern) {
-      v(1em)
-      it
-    } else {
-      it
-    }
-  }
+  show par: move-par
 
   body
   author-signatures(authors)

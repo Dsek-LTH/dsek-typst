@@ -1,10 +1,11 @@
 [package]
+description = "hej"
 name = "dsek"
 version = "0.1.0"
 entrypoint = "src/lib.typ"
 authors = [ "D-sektionen inom TLTH" ]
 license = "MIT"
-homepage = "dsek.se"
+homepage = "https://dsek.se"
 repository = "https://github.com/Dsek-LTH/dsek-typst"
-categories = [ ]
-disciplines = [ ]
+categories = [ "layout", "text" ]
+disciplines = [ "communication", "computer-science", "engineering" ]

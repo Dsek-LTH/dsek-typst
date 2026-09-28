@@ -7,11 +7,11 @@
 ///
 /// === Notes
 /// - Terms blocks (`/ Term: Description`) are formatted as a §-numbered 3-column table.
-///   - The §-number reflects the current heading section (e.g. §2.3 Rättigheter inside `== Ordinarie medlemmar`).
+///   - The §-number combines the current heading section and the term's index within the block (e.g. §1.2 for the second term under `= Sektionen`).
 ///
 /// === Example
 /// ```typst
-/// #show: statutes
+/// #show: stadgar
 ///
 /// = Sektionen
 ///
@@ -24,6 +24,7 @@
 ///
 /// - lang (str): The language of the document (same format as `text.lang`).
 ///               Only "sv" and "en" are supported.
+/// - date (datetime): The date at which the document was written.
 /// - body (content): The body of the document.
 ///
 /// -> content
@@ -46,10 +47,11 @@
     use-cover-page: true,
   )
 
+  show list: resolutions.with(enumerate: false)
   show terms: terms-fmt.with(columns: (3.5em, 9.5em, 1fr))
 
   body
 }
 
-/// Swedish binding for statutes
+/// Swedish binding for `statutes`
 #let stadgar = statutes

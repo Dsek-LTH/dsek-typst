@@ -9,7 +9,7 @@
 ///
 /// === Example
 /// ```typst
-/// #show: regulations
+/// #show: reglemente
 ///
 /// = Teknologia
 ///
@@ -25,6 +25,7 @@
 ///
 /// - lang (str): The language of the document (same format as `text.lang`).
 ///               Only "sv" and "en" are supported.
+/// - date (datetime): The date at which the document was written.
 /// - body (content): The body of the document.
 ///
 /// -> content
@@ -44,10 +45,10 @@
   )
 
   show list: resolutions.with(enumerate: false)
-  show terms: terms-fmt.with(columns: (9.5em, 1fr))
+  show terms: terms-fmt.with(columns: (10.5em, 1fr))
 
   body
 }
 
-/// Swedish binding for regulations
+/// Swedish binding for `regulations`
 #let reglemente = regulations

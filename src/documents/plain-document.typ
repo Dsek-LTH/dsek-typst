@@ -1,6 +1,6 @@
 #import "../lib/_mod.typ": *
 #import strings: guild
-#import graphics: guild_logo
+// #import graphics: apply-graphics, symbol-map
 
 //   ▄▄▄▄ ▄▄▄▄▄▄ ▄▄ ▄▄ ▄▄    ▄▄ ▄▄  ▄▄  ▄▄▄▄
 //  ███▄▄   ██   ▀███▀ ██    ██ ███▄██ ██ ▄▄
@@ -39,9 +39,7 @@
     #set text(size: 10pt)
     #stack(
       dir: ltr,
-      box(width: 18mm)[
-        #guild_logo(height: header-height)
-      ],
+      box(width: 18mm, graphics.dsek-logo),
       box(width: 82mm)[
         #show: smallcaps
         #text(size: 11pt, guild.dseklth) \
@@ -73,17 +71,18 @@
   [#current_page (#last_page)]
 }
 
-
-/// Creates a cover page.
-///
-/// - title (content): The title of the document.
-/// - date (datetime): The date at which the document was written.
-///
-/// -> content
 #let cover-page(title, date) = page[
   // might as well make it fancy, yknow
+  #place(bottom + right, dy: 125pt, dx: 125pt)[
+    #box(scale(150%, graphics.dsek-logo))
+  ]
+  #rect(
+    width: page.width + 2pt,
+    height: page.height + 1pt,
+    fill: rgb(255, 255, 255, 245),
+  )
   #place(top + left)[
-    #guild_logo(height: 10em, colour: true)
+    #box(height: 10em, graphics.dsek-logo-color)
   ]
   #place(horizon, dy: -15em)[
     #set text(weight: "bold", font: "TeX Gyre Heros", number-type: "lining")
@@ -105,9 +104,8 @@
 
 /// Base document wrapper that applies the guild document styling.
 ///
-/// All document-type functions in this library apply `doc` internally.
-/// Use this directly (via `plain-document` in `lib.typ`) only when no
-/// specialised document type fits.
+/// All document-type functions in this library apply `plain-document` internally.
+/// Use this template directly only when no specialised document type fits.
 ///
 /// Sets up page geometry, header/footer, fonts (Domitian serif body, TeX Gyre
 /// Heros sans-serif headings), heading numbering, link colours, and the
@@ -137,6 +135,8 @@
     title: title,
     date: date,
   )
+
+  // show: apply-graphics(symbol-map)
 
   show std.title: set text(
     font: sans-serif,
@@ -168,6 +168,14 @@
   show list: resolutions
   show ref: enhanced-ref
 
+  show outline: set text(font: serif)
+  set outline.entry(fill: box(repeat([.], gap: 0.50em, justify: true), inset: (left: 0.5em, right: 1em)))
+
+  let oe = outline.entry.where(level: 1)
+  show oe: set block(above: 1.4em)
+  show oe: set text(weight: "bold")
+  show oe: set outline.entry(fill: none)
+
   // TODO: Pick and set a monospace font for code-esque excerpts.
   set text(lang: lang, font: serif, size: 11pt, number-type: "old-style")
 
@@ -189,7 +197,12 @@
     margin: (x: horizontal-margin, top: top-margin, bottom: bottom-margin),
   )
 
-  set list(spacing: par.spacing)
+  if use-cover-page {
+    page(outline(depth: 2))
+  }
+
+  set list(spacing: par.spacing, indent: 1em)
+  set enum(spacing: par.spacing, indent: 1em)
   set terms(spacing: par.spacing)
 
   if not use-cover-page {

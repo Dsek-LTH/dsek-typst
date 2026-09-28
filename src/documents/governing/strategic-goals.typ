@@ -9,18 +9,18 @@
 ///
 /// === Example
 /// ```typst
-/// #show: strategic-goals.with(
-///   summary: [
-///     De strategiska målen är mål som är strategiska.
-///   ],
+/// #show: strategiska-mål.with(
+///   summary: [De strategiska målen är mål som är strategiska.],
 ///   purpose: [
 ///     Syftet med de strategiska målen är göra styrelsens arbete lite jobbigare.
 ///   ],
-///   scope: [
-///     Hela D-sektionens verksamhet.
-///   ],
+///   scope: [Hela D-sektionens verksamhet.],
 ///   history: (
-///     (meeting: "-", change: "Utkast färdigställt", who: "Framtidsutskottet 2021"),
+///     (
+///       meeting: "HTM2 2021",
+///       change: "Ursprungligen antagen",
+///       who: "Framtidsutskottet 2021",
+///     ),
 ///   ),
 /// )
 ///
@@ -68,5 +68,5 @@
   )
 }
 
-/// Swedish binding for strategic-goals
+/// Swedish binding for `strategic-goals`
 #let strategiska-mål = strategic-goals

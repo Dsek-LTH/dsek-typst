@@ -6,8 +6,8 @@
 ///
 /// === Notes
 /// - Author signatures are appended automatically through the `authors` parameter.
-/// - Paragraphs ending with "yrka på", "besluta" (sv) or "move", "decide" (en)
-///   automatically get extra vertical space before them.
+/// - A paragraph is given extra vertical space before it when it ends with a resolution
+///   phrase: Swedish `yrka … på` or `beslut`/`besluta`, or English `move`/`moves`/`decide`.
 ///
 /// === Example
 /// ```typst
@@ -30,10 +30,11 @@
 ///
 /// - title (content): The title of the motion being responded to.
 /// - meeting (str, content): The meeting for which the motion and response were written, e.g. `"HTM1"`.
-/// - authors (array): Signatories. Each signatory dict must have at least the key `name`, optionally `message`, `position` and `image`.
+/// - authors (array): Signatories. Each signatory dict must have at least the key `name`, optionally `message`, `position` and `signature`.
 /// - lang (str): The language of the document (same format as `text.lang`).
 ///               Only "sv" and "en" are supported.
 /// - date (datetime): The date at which the document was written.
+/// - body (content): The body of the document.
 ///
 /// -> content
 #let board-response(
@@ -53,5 +54,5 @@
   body,
 )
 
-/// Swedish binding for board-response
+/// Swedish binding for `board-response`
 #let styrelsens-svar = board-response

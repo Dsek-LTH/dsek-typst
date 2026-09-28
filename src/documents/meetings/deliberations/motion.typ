@@ -5,38 +5,31 @@
 ///
 /// === Notes
 /// - Author signatures are appended automatically through the `authors` parameter.
-/// - Paragraphs ending with "yrka på", "besluta" (sv) or "move", "decide" (en)
-///   automatically get extra vertical space before them.
+/// - A paragraph is given extra vertical space before it when it ends with a resolution
+///   phrase: Swedish `yrka … på` or `beslut`/`besluta`, or English `move`/`moves`/`decide`.
 ///
 /// === Example
 /// ```typst
 /// #show: motion.with(
-///   title: [3.0 flugor i en smäll],
-///   meeting: "HTM1",
+///   title: [Uppdatering av Policy för ekonomi],
+///   meeting: "S23",
+///   // position defaults to "Sektionsmedlem" / "Guild member",
+///   // message defaults to "Lund, dag som ovan" / "Lund, day as above"
 ///   authors: (
-///     // position defaults to "Sektionsmedlem" / "Guild member",
-///     // message defaults to "Lund, dag som ovan" / "Lund, day as above"
-///     (name: "Truls Teknolog", position: aktu.dsportare),
-///     (name: "Trula Teknolog", message: "gaming"),
-///   ),
+///      (name: "Truls Teknolog", position: km.mastare),
+///      (name: "Trula Teknolog", message: "För uppdaterad information"),
+///    )
 /// )
 ///
-/// = Bakgrund
+/// Vi har bytt sektionsbil (igen), så policy för ekonomi bör reflektera detta.
 ///
-/// Geekend är ett väldigt uppskattat event. Senast slog vi rekord med 247
-/// sittande. Jag är inte helt säker på hur vi fick plats, men kul var det.
-///
-/// = Sammanfattning
-///
-/// Geekend är kul, så vi vill ha mer Geekend
-///
-/// Aktivitetsutskottet yrkar på // extra space is inserted before this paragraph automatically
-/// - att införa ett månadslångt Geekend // becomes: *att* införa...
+/// Vi yrkar på // extra space is inserted before this paragraph automatically
+/// - att uppdatera "Policy för ekonomi" enligt bilaga // becomes: *att* uppdatera...
 /// ```
 ///
 /// - title (content): The title of the motion.
 /// - meeting (str, content): The meeting for which the motion was written, e.g. `"HTM1"`.
-/// - authors (array): Signatories. Each signatory dict must have at least the key `name`, optionally `message`, `position` and `image`.
+/// - authors (array): Signatories. Each signatory dict must have at least the key `name`, optionally `message`, `position` and `signature`.
 /// - lang (str): The language of the document (same format as `text.lang`).
 ///               Only "sv" and "en" are supported.
 /// - date (datetime): The date at which the document was written.

@@ -9,7 +9,7 @@
 ///
 /// === Example
 /// ```typst
-/// #show: guideline.with(
+/// #show: riktlinje.with(
 ///   subject: "sektionsbilens användning", // title becomes "Riktlinje för sektionsbilens användning"
 ///   summary: [Riktlinjen beskriver hur man inte är en trafikfara.],
 ///   purpose: [Syftet med denna riktlinje är att undvika ännu ett VTM-extra.],
@@ -38,6 +38,7 @@
 /// - date (datetime): The date at which the document was written.
 /// - lang (str): The language of the document (same format as `text.lang`).
 ///               Only "sv" and "en" are supported.
+/// - use-cover-page (bool): Whether to render the title on a separate cover page instead of a heading.
 /// - body (content): The body of the document.
 ///
 /// -> content
@@ -49,13 +50,14 @@
   history: (),
   date: datetime.today(),
   lang: "sv",
+  use-cover-page: false,
   body,
 ) = {
   required(subject, "subject", fn: "guideline")
   let guideline-name = translate("Riktlinje", "Guideline")
 
   governing-document(
-    title: [#guideline-name #translate("för", "for") #subject],
+    title: if use-cover-page { subject } else [#guideline-name #translate("för", "for") #subject],
     summary: summary,
     purpose: purpose,
     scope: scope,
@@ -63,9 +65,10 @@
     date: date,
     lang: lang,
     doc-type: guideline-name,
+    use-cover-page: use-cover-page,
     body,
   )
 }
 
-/// Swedish binding for guideline.
+/// Swedish binding for `guideline`.
 #let riktlinje = guideline

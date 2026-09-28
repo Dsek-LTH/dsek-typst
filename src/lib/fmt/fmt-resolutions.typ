@@ -4,7 +4,7 @@
 
 /// Formats a bullet list as operative clauses ("att"-lista / "to"-list).
 ///
-/// Applied automatically to all lists inside `doc()` via `show list: resolutions`,
+/// Applied automatically to all lists inside `plain-document` via `show list: resolutions`,
 /// so it rarely needs to be called directly. A list is only reformatted when
 /// *every* item begins with the resolution term; otherwise the list is rendered
 /// unchanged, so regular bullet lists are unaffected.
@@ -40,8 +40,11 @@
   let clause_counter = counter("resolutions")
   clause_counter.update(0)
 
+  show list: set par(justify: false)
+
   list(
     tight: false,
+    indent: 0pt,
     marker: {
       clause_counter.step()
 

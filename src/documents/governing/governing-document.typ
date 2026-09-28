@@ -21,6 +21,8 @@
 /// - lang (str): The language of the document (same format as `text.lang`).
 ///               Only "sv" and "en" are supported.
 /// - date (datetime): The date at which the document was written.
+/// - doc-type (str): Document "type" label, shown in the page header.
+/// - use-cover-page (bool): Whether to render the title on a separate cover page instead of a heading.
 /// - body (content): The body of the document.
 ///
 /// -> content
