@@ -9,6 +9,8 @@
 ///
 /// === Example
 /// ```typst
+/// #import "@preview/dsek:0.1.0": *
+///
 /// #show: reglemente
 ///
 /// = Teknologia

@@ -9,6 +9,8 @@
 ///
 /// === Example
 /// ```typst
+/// #import "@preview/dsek:0.1.0": *
+///
 /// #show: riktlinje.with(
 ///   subject: "sektionsbilens användning", // title becomes "Riktlinje för sektionsbilens användning"
 ///   summary: [Riktlinjen beskriver hur man inte är en trafikfara.],
@@ -20,7 +22,7 @@
 ///       change: "Uppdaterade bilens registreringsnummer",
 ///       who: "Styrelsen genom Truls Teknolog",
 ///     ),
-///   )
+///   ),
 /// )
 ///
 /// = Hastigheter

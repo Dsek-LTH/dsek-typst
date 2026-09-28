@@ -1,5 +1,4 @@
-#import "../../src/lib.typ": *
-#import strings: *
+#import "@preview/dsek:0.1.0": *
 
 #show: strategiska-mål.with(
   summary: [De strategiska målen är mål som är strategiska.],

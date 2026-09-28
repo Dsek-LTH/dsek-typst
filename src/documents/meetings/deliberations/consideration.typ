@@ -11,6 +11,9 @@
 ///
 /// === Example
 /// ```typst
+/// #import "@preview/dsek:0.1.0": *
+/// #import strings: aktu
+///
 /// #show: handling.with(
 ///   title: [3.0 flugor i en smäll],
 ///   meeting: "HTM1",

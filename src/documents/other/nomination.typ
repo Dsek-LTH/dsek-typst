@@ -10,7 +10,10 @@
 ///
 /// === Example
 /// ```typst
-/// #show: nomination-proposal.with(
+/// #import "@preview/dsek:0.1.0": *
+/// #import strings: valb
+///
+/// #show: valförslag.with(
 ///   title: "Nomineringar till Presidiet",
 ///   meeting: "S23",
 ///   candidates: (

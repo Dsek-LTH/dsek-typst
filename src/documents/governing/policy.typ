@@ -9,6 +9,8 @@
 ///
 /// === Example
 /// ```typst
+/// #import "@preview/dsek:0.1.0": *
+///
 /// #show: policy.with(
 ///   subject: "ekonomi", // title becomes "Policy för ekonomi"
 ///   summary: [Policyn beskriver hur ekonomin på sektionen ska skötas.],
@@ -25,8 +27,7 @@
 ///
 /// = Sektionsbil
 ///
-/// // highlight to show diff
-/// Sektionsbilen är i särklass sektionens #remove[mest]#add[minst] värdefulla ägodel.
+/// Sektionsbilen är i särklass sektionens #remove[mest]#add[minst] värdefulla ägodel. // highlight to show diff
 ///
 /// = Bokslut
 ///

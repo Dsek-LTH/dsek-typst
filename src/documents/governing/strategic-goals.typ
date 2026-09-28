@@ -9,18 +9,14 @@
 ///
 /// === Example
 /// ```typst
+/// #import "@preview/dsek:0.1.0": *
+///
 /// #show: strategiska-mål.with(
 ///   summary: [De strategiska målen är mål som är strategiska.],
-///   purpose: [
-///     Syftet med de strategiska målen är göra styrelsens arbete lite jobbigare.
-///   ],
+///   purpose: [Syftet med de strategiska målen är göra styrelsens arbete lite jobbigare.],
 ///   scope: [Hela D-sektionens verksamhet.],
 ///   history: (
-///     (
-///       meeting: "HTM2 2021",
-///       change: "Ursprungligen antagen",
-///       who: "Framtidsutskottet 2021",
-///     ),
+///     (meeting: "HTM2 2021", change: "Ursprungligen antagen", who: "Framtidsutskottet 2021"),
 ///   ),
 /// )
 ///

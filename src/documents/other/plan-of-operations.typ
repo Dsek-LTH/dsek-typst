@@ -10,7 +10,9 @@
 ///
 /// === Example
 /// ```typst
-/// #show: plan-of-operations // `Overview` section inserted automatically
+/// #import "@preview/dsek:0.1.0": *
+///
+/// #show: verksamhetsplan // `Overview` section inserted automatically
 ///
 /// = Mål från de strategiska målen
 ///

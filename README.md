@@ -4,8 +4,9 @@ Document types for the [D-guild](https://dsek.se)'s various documents, in Typst.
 
 ## Usage
 
-> [!IMPORTANT]
-> To generate documents in stylistic accordance with [guild guidelines](https://www.dsek.se/api/pdf/styrdokument/releases/download/latest/riktlinje_for_grafisk_profil.pdf), you ***must install the correct fonts yourself***, as they are [not included](https://github.com/typst/packages/blob/main/docs/resources.md#fonts-are-not-supported-in-packages) in the Typst package. These fonts can be found [here](./fonts), and should thankfully only need to be installed globally once if you're producing documents locally. If using the typst web app, simply upload the font files to your project and Typst should pick up on them automatically.
+> **IMPORTANT**
+>
+> To generate documents in stylistic accordance with [guild guidelines](https://www.dsek.se/api/pdf/styrdokument/releases/download/latest/riktlinje_for_grafisk_profil.pdf), you ***must install the correct fonts yourself***, as they are [not included](https://github.com/typst/packages/blob/main/docs/resources.md#fonts-are-not-supported-in-packages) in the Typst package. These fonts can be found [here](https://github.com/Dsek-LTH/dsek-typst/tree/main/fonts), and should thankfully only need to be installed globally once if you're producing documents locally. If using the typst web app, simply upload the font files to your project and Typst should pick up on them automatically.
 
 To use the `dsek` templates in your project, import it and apply a template using a show rule. For example:
 
@@ -44,7 +45,8 @@ The currently available templates (along with their Swedish bindings) are:
     - [`plan-of-operations`](./examples/plan-of-operations.pdf?raw=true) / [`verksamhetsplan`](./examples/plan-of-operations.pdf?raw=true)
     - [`equal-treatment-plan`](./examples/equal-treatment-plan.pdf?raw=true) / [`likabehandlingsplan`](./examples/equal-treatment-plan.pdf?raw=true)
 
-> [!NOTE]
+> **NOTE**
+>
 > Almost all templates have slightly differing parameters. Check the documentation if you're unsure which one goes where.
 
-Click on each template name to see an example document using that template. You can click [here](examples/src) to view the source code for each example, or [read the full documentation here](./docs/templates.pdf?raw=true).
+Click on each template name to see an example document using that template. You can click [here](examples/src) to view the source code for each example, or [read the full documentation here](./docs/templates-docs.pdf?raw=true).

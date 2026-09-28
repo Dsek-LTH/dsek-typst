@@ -1,8 +1,8 @@
-#import "../../src/lib.typ": *
-#import strings: *
+#import "@preview/dsek:0.1.0": *
+#import strings: km
 
 #show: likabehandlingsplan.with(
-  committee: km.name,
+  committee: km.name, // title becomes "Likabehandlingsplan - Källarmästeriet"
   meeting: [S21],
 )
 

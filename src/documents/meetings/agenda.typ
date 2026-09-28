@@ -16,11 +16,14 @@
 ///
 /// === Example
 /// ```typst
+/// #import "@preview/dsek:0.1.0": *
+/// #import strings: otherpos
+///
 /// #show: föredragningslista.with(
 ///   meeting: "HTM1",
 ///   time: date(15, 3, 2026, time: (17, 15)),
 ///   authors: (
-///     (name: "Truls Teknolog", position: strings.otherpos.talman),
+///     (name: "Truls Teknolog", position: otherpos.talman),
 ///   ),
 /// )
 ///

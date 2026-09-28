@@ -1,8 +1,8 @@
-#import "../../src/lib.typ": *
-#import strings: *
+#import "@preview/dsek:0.1.0": *
+#import strings: styr
 
 #show: kravprofil.with(
-  position: strings.styr.ordf, // or a plain string: "Ordförande"
+  position: styr.ordf, // or a plain string: "Ordförande"
   requirements: (
     "Godkänd i B2",
   ),

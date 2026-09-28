@@ -94,6 +94,9 @@
 ///
 /// === Example:
 /// ```typst
+/// #import "@preview/dsek:0.1.0": *
+/// #import strings: infu, styr
+///
 /// #show: protokoll.with(
 ///   meeting: "S06",
 ///   attendees: (

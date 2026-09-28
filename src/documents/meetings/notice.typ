@@ -19,6 +19,9 @@
 ///
 /// === Example
 /// ```typst
+/// #import "@preview/dsek:0.1.0": *
+/// #import strings: styr
+///
 /// #show: kallelse.with(
 ///   meeting: "S05",
 ///   time: date(15, 3, 2025, time: (13, 0)),

@@ -11,15 +11,18 @@
 ///
 /// === Example
 /// ```typst
+/// #import "@preview/dsek:0.1.0": *
+/// #import strings: styr
+///
 /// #show: styrelsens-svar.with(
 ///   title: [3.0 flugor i en smäll],
 ///   meeting: "HTM1",
-///   // position defaults to "Sektionsmedlem" / "Guild member",
-///   // message defaults to "Lund, dag som ovan" / "Lund, day as above"
 ///   authors: (
-///      (name: "Truls Teknolog", position: strings.styr.ordf),
-///      (name: "Trula Teknolog", message: "För styrelsen"),
-///    )
+///     // position defaults to "Sektionsmedlem" / "Guild member",
+///     // message defaults to "Lund, dag som ovan" / "Lund, day as above"
+///     (name: "Truls Teknolog", position: styr.ordf),
+///     (name: "Trula Teknolog", message: "För styrelsen"),
+///   ),
 /// )
 ///
 /// #emoji.thumb.up

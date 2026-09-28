@@ -11,6 +11,9 @@
 ///
 /// === Example
 /// ```typst
+/// #import "@preview/dsek:0.1.0": *
+/// #import strings: styr
+///
 /// #show: proposition.with(
 ///   title: [Budgetrevidering],
 ///   meeting: "VTM-Extra",
