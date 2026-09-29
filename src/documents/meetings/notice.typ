@@ -1,5 +1,6 @@
 #import "../plain-document.typ": plain-document
 #import "../../lib/_mod.typ": *
+#import "../../lib/utils/date.typ": custom-date-format
 
 /// #set raw(lang: "typst")
 /// Creates a meeting notice/summons (kallelse) document. Apply with `#show: kallelse.with(...)` or `#show: notice.with(...)`.

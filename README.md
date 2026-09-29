@@ -50,3 +50,7 @@ The currently available templates (along with their Swedish bindings) are:
 > Almost all templates have slightly differing parameters. Check the documentation if you're unsure which one goes where.
 
 Click on each template name to see an example document using that template. You can click [here](examples/src) to view the source code for each example, or [read the full documentation here](./docs/templates-docs.pdf?raw=true).
+
+## License
+
+This package is licensed under the [MIT license](LICENSE). The _D-sektionen_ name and logo are trademarks of D-sektionen inom TLTH, are excluded from the MIT license, and are included solely for use in D-guild documents. See [dsek.se](https://dsek.se) for details.

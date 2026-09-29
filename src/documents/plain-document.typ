@@ -1,5 +1,6 @@
 #import "../lib/_mod.typ": *
 #import strings: guild
+#import "../lib/utils/date.typ": custom-date-format
 // #import graphics: apply-graphics, symbol-map
 
 //   ▄▄▄▄ ▄▄▄▄▄▄ ▄▄ ▄▄ ▄▄    ▄▄ ▄▄  ▄▄  ▄▄▄▄

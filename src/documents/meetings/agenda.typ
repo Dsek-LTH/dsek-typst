@@ -1,5 +1,6 @@
 #import "../plain-document.typ": plain-document
 #import "../../lib/_mod.typ": *
+#import "../../lib/utils/date.typ": custom-date-format
 
 /// #set raw(lang: "typst")
 /// Creates an agenda (föredragningslista) document. Apply with `#show: föredragningslista.with(...)` or `#show: agenda.with(...)`.

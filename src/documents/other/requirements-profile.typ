@@ -1,5 +1,6 @@
 #import "../plain-document.typ": plain-document
 #import "../../lib/_mod.typ": *
+#import "../../lib/utils/date.typ": custom-date-format
 
 /// #set raw(lang: "typst")
 /// Creates a requirements profile (kravprofil) for an elected position. Apply with `#show: kravprofil.with(...)` or `#show: requirements-profile.with(...)`.

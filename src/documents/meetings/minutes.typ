@@ -1,5 +1,6 @@
 #import "../plain-document.typ": plain-document
 #import "../../lib/_mod.typ": *
+#import "../../lib/utils/date.typ": custom-date-format
 
 #let attendance(..names) = {
   show grid.cell: set par(justify: false)
