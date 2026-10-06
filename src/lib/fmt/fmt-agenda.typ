@@ -125,7 +125,7 @@
     ..unstyled
       .children
       .enumerate(start: 1)
-      .map(pair => make-table-row(pair.at(1), pair.at(0), link-map))
+      .map(((index, item)) => make-table-row(item, index, link-map))
       .flatten(),
   )
 }
