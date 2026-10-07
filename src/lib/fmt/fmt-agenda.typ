@@ -1,76 +1,107 @@
 #import "../utils/translate.typ": translate
 
+/// Checks if a list item is on the form `[text] more text`.
+#let is-valid-agenda-item(item) = {
+  // If the item contains brackets, the content gets split into a `sequence` and all sequences have children.
+  if not item.body.has("children") {
+    return false
+  }
+
+  let children = item.body.children
+
+  let valid-opening = children.first().at("text", default: "") == "["
+  let valid-closing = children.any(child => child.at("text", default: "") == "]")
+
+  valid-opening and valid-closing
+}
+
+/// Creates a map from a URL string to a `link` object from a list of `link` objects.
+/// Unless a link has a specific display set, an incrementing number will be used.
+#let make-link-displays(links) = {
+  let displays = (:)
+  let counter = 1
+
+  for url in links {
+    if url.dest not in displays {
+      // Typst makes no distinction.
+      let is-body-auto-generated = url.body.text == url.dest
+
+      if not is-body-auto-generated {
+        displays.insert(url.dest, url)
+      } else {
+        displays.insert(url.dest, link(url.dest)[#counter])
+        counter += 1
+      }
+    }
+  }
+
+  displays
+}
+
+/// Partitions a sequence (taken from a list item) into the initial text part
+/// and the proceeding links (which is specified as an enumerated sublist).
+#let partition-text-and-links(sequence) = (
+  sequence.filter(x => x.func() != enum.item).join(),
+  sequence.filter(x => x.func() == enum.item).map(item => item.body),
+)
+
+/// Converts an item into a row in the resulting table.
+#let make-table-row(item, index, link-displays) = {
+  let (open, label, close, ..rest) = item.body.children
+
+  let item-text = none
+  let links = none
+
+  assert(open.text == "[")
+
+  if label.text == "]" {
+    rest = (close, ..rest)
+
+    (item-text, links) = partition-text-and-links(rest)
+    label = ""
+  } else {
+    assert(close.text == "]")
+    (item-text, links) = partition-text-and-links(rest)
+  }
+
+  (
+    [§#index],
+    [
+      #set par(justify: false)
+      #item-text
+    ],
+    label,
+    [
+      #set par(justify: false)
+      #set text(number-type: "lining")
+      #context {
+        let links = links.map(link => link-displays.at(link.dest)).join([, ])
+        let width = measure(links).width
+        block(width: calc.min(width, 55pt), links)
+      }
+    ],
+  )
+}
+
+/// Formatting for `list` to make an agenda.
 #let agenda-fmt(make-heading: false, unstyled) = {
   let items = unstyled.children
 
-  // only format if correct syntax
-  if items.any(item => {
-    if item.body.has("text") { return true }
-    if item.body.has("children") {
-      let children = item.body.children
-      let begin = children.first().at("text", default: "") == "["
-      let end = "]" in children.map(x => x.at("text", default: ""))
-      not (begin and end)
-    }
-  }) {
+  // Only format if the syntax is correct.
+  if not items.all(is-valid-agenda-item) {
     return unstyled
   }
 
-  let link-map = (:)
-  let link-counter = 1
-
-  let partition(ls) = (
-    ls.filter(x => not x.has("body")),
-    ls.filter(x => x.has("body") and x.func() == enum.item),
+  // The `+` lists with links.
+  let sub-lists =  items.map(item =>
+    item.body.children.filter(child => child.func() == enum.item)
   )
 
-  let links = items.map(item => item.body.children.filter(child => child.has("body"))).flatten().map(item => item.body)
+  let links = sub-lists
+    .flatten()
+    .map(item => item.body)
 
-  for url in links {
-    if url.dest not in link-map {
-      if url.body.text != url.dest {
-        link-map.insert(url.dest, url)
-      } else {
-        link-map.insert(url.dest, link(url.dest, [#link-counter]))
-        link-counter += 1
-      }
-    }
-  }
-
-  let extract(item) = {
-    let (n, item) = item
-    if item.body.has("children") {
-      let (open, label, close, ..rest) = item.body.children
-      let txt = none
-      let links = none
-      let lbl = label
-      if open.text == "[" and label.text == "]" {
-        if close != [ ] { rest = (close,) }
-        (txt, links) = partition(rest)
-        lbl = ""
-      } else if open.text == "[" and close.text == "]" {
-        (txt, links) = partition(rest)
-      }
-
-      (
-        [§#n],
-        [
-          #set par(justify: false)
-          #txt.join()
-        ],
-        lbl,
-        [
-          #set par(justify: false)
-          #set text(number-type: "lining")
-          #context {
-            let links = links.map(x => link-map.at(x.body.dest)).join([, ])
-            let width = measure(links).width
-            block(width: calc.min(width, 55pt), links)
-          }
-        ],
-      )
-    }
-  }
+  let link-map = make-link-displays(links)
 
   if make-heading {
     heading(numbering: none, depth: 2, translate("Föredragningslista", "Agenda"))
@@ -82,12 +113,19 @@
     stroke: none,
     row-gutter: (0.5em, 0.5em, par.leading),
     column-gutter: 1em,
+
     [*#sym.numero*],
     [*#translate("Ärende", "Item")*],
     [*#translate("Åtgärd", "Action")*],
     [*#translate("Bilaga", "Annex")*],
+
     grid.hline(stroke: 0.4pt),
-    grid.cell(colspan: 4, []),
-    ..unstyled.children.enumerate(start: 1).map(item => extract(item)).flatten(),
+
+    grid.cell(colspan: 4)[],
+    ..unstyled
+      .children
+      .enumerate(start: 1)
+      .map(((index, item)) => make-table-row(item, index, link-map))
+      .flatten(),
   )
 }
