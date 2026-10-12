@@ -78,6 +78,7 @@
   date: datetime.today(),
   body,
 ) = {
+  required(meeting, "meeting", fn: "notice", hint: "short meeting identifier, e.g. meeting: \"HTM1\"")
   required(location, "location", fn: "notice", hint: "meeting venue, e.g. location: [E:1124]")
   required(authors, "authors", fn: "notice", hint: "list of author dicts, e.g. authors: ((name: \"Truls Teknolog\"),)")
   required(time, "time", fn: "notice", hint: "use the date() helper, e.g. time: date(15, 3, 2026, time: (12, 15))")
