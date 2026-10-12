@@ -13,9 +13,11 @@ To use the `dsek` templates in your project, import it and apply a template usin
 ```typst
 #import "@preview/dsek:0.1.0": *
 #show: motion.with(
-    title: "Typst-mallar för styrdokumenten",
-    meeting: "HTM1",
-    authors: (name: "Truls Teknolog"),
+  title: "Typst-mallar för styrdokumenten",
+  meeting: "HTM1",
+  authors: (
+    (name: "Truls Teknolog"),
+  )
 )
 
 = Introduktion
