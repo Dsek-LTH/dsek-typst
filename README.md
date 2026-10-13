@@ -53,6 +53,25 @@ The currently available templates (along with their Swedish bindings) are:
 
 Click on each template name to see an example document using that template. You can click [here](examples/src) to view the source code for each example, or [read the full documentation here](./docs/templates-docs.pdf?raw=true).
 
+## Changelog
+
+### v0.1.1
+
+#### Changes
+
+- Added a minimum compiler version (`0.15`)
+- Changed parameters for `equal-treatment-plan` (removed `meeting`, added `year`)
+- The `meeting` parameter for `notice` is now required
+
+#### Bug fixes
+
+- Fixed code example in `README.md` not compiling
+- Fixed docstrings not rendering correctly on [typst.app](https://typst.app)
+
+### v0.1.0
+
+- Initial version
+
 ## License
 
 This package is licensed under the [MIT license](LICENSE). The _D-sektionen_ name and logo are trademarks of D-sektionen inom TLTH, are excluded from the MIT license, and are included solely for use in D-guild documents. See [dsek.se](https://dsek.se) for details.
