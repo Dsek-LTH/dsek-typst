@@ -2,8 +2,10 @@
 #import "../../lib/_mod.typ": *
 #import strings: guild
 
+/// Creates the guild statutes (stadgar) document.
+///
 /// #set raw(lang: "typst")
-/// Creates the guild statutes (stadgar) document. Apply with `#show: stadgar.with(...)` or `#show: statutes.with(...)`.
+/// Apply with `#show: stadgar.with(..)` or `#show: statutes.with(..)`.
 ///
 /// === Notes
 /// - Terms blocks (`/ Term: Description`) are formatted as a §-numbered 3-column table.

@@ -1,8 +1,10 @@
 #import "../plain-document.typ": plain-document
 #import "../../lib/_mod.typ": *
 
+/// Creates the guild regulations (reglemente) document.
+///
 /// #set raw(lang: "typst")
-/// Creates the guild regulations (reglemente) document. Apply with `#show: reglemente.with(...)` or `#show: regulations.with(...)`.
+/// Apply with `#show: reglemente.with(..)` or `#show: regulations.with(..)`.
 ///
 /// === Notes
 /// - Terms blocks (`/ Term: Description`) are formatted as a 2-column table (term, description).

@@ -1,8 +1,10 @@
 #import "../plain-document.typ": plain-document
 #import "../../lib/_mod.typ": *
 
+/// Creates a plan of operations (verksamhetsplan) document.
+///
 /// #set raw(lang: "typst")
-/// Creates a plan of operations (verksamhetsplan) document. Apply with `#show: verksamhetsplan.with(...)` or `#show: plan-of-operations.with(...)`.
+/// Apply with `#show: verksamhetsplan.with(..)` or `#show: plan-of-operations.with(..)`.
 ///
 /// === Notes
 /// - The document begins with a pre-filled "Översikt" / "Overview" section containing subsections summary, purpose, structure, responsibility, and reporting. A page break separates the Overview section from the body.

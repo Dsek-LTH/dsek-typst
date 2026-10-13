@@ -1,8 +1,10 @@
 #import "../plain-document.typ": plain-document
 #import "../../lib/_mod.typ": *
 
+/// Creates an Equal treatment plan (likabehandlingsplan) document.
+///
 /// #set raw(lang: "typst")
-/// Creates an Equal treatment plan (likabehandlingsplan) document. Apply with `#show: likabehandlingsplan.with(...)` or `#show: equal-treatment-plan.with(...)`.
+/// Apply with `#show: likabehandlingsplan.with(..)` or `#show: equal-treatment-plan.with(..)`.
 ///
 /// === Example
 /// ```typst

@@ -2,8 +2,10 @@
 #import "../../lib/_mod.typ": *
 #import "../../lib/utils/date.typ": custom-date-format
 
+/// Creates an agenda (föredragningslista) document.
+///
 /// #set raw(lang: "typst")
-/// Creates an agenda (föredragningslista) document. Apply with `#show: föredragningslista.with(...)` or `#show: agenda.with(...)`.
+/// Apply with `#show: föredragningslista.with(..)` or `#show: agenda.with(..)`.
 ///
 /// === Notes
 /// - The body should include a numbered list using bracket syntax: `- [Action] Item name`.

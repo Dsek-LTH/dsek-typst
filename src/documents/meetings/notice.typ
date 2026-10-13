@@ -2,8 +2,10 @@
 #import "../../lib/_mod.typ": *
 #import "../../lib/utils/date.typ": custom-date-format
 
+/// Creates a meeting notice/summons (kallelse) document.
+///
 /// #set raw(lang: "typst")
-/// Creates a meeting notice/summons (kallelse) document. Apply with `#show: kallelse.with(...)` or `#show: notice.with(...)`.
+/// Apply with `#show: kallelse.with(..)` or `#show: notice.with(..)`.
 ///
 /// === Notes
 /// - A "Tid och plats" / "Time and location" block is automatically prepended to the body.

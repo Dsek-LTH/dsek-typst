@@ -6,9 +6,9 @@
 // This way, a more correct way of writing is enforced, rather than relying on
 // freehand typing to be consistent.
 
-/// #set raw(lang: "typst")
 /// Creates a generic governing document (policy / guideline / strategic goals).
 ///
+/// #set raw(lang: "typst")
 /// === Notes
 /// - The document begins with an "Översikt" / "Overview" section containing the summary, purpose, scope, and a revision history table. A page break separates the Overview section from the body.
 ///

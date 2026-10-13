@@ -82,8 +82,10 @@
   )
 }
 
+/// Creates a meeting minutes (protokoll) document.
+///
 /// #set raw(lang: "typst")
-/// Creates a meeting minutes (protokoll) document. Apply with `#show: protokoll.with(...)` or `#show: minutes.with(...)`.
+/// Apply with `#show: protokoll.with(..)` or `#show: minutes.with(..)`.
 ///
 /// === Notes
 /// - The body uses `/ Term: description` syntax where each term is an agenda item title and the

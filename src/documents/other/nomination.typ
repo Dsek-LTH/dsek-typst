@@ -1,8 +1,10 @@
 #import "../plain-document.typ": plain-document
 #import "../../lib/_mod.typ": *
 
+/// Creates a nomination proposal (valförslag) document.
+///
 /// #set raw(lang: "typst")
-/// Creates a nomination proposal (valförslag) document. Apply with `#show: valförslag.with(...)` or `#show: nomination-proposal.with(...)`.
+/// Apply with `#show: valförslag.with(..)` or `#show: nomination-proposal.with(..)`.
 ///
 /// - Candidates are grouped by position via the `candidates` dictionary and laid out in
 ///   two columns. Free-form content (headings, paragraphs) can be mixed in below them.

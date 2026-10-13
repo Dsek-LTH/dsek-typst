@@ -1,8 +1,10 @@
 #import "deliberation.typ": deliberation
 #import "../../../lib/_mod.typ": translate
 
+/// Creates a board response (styrelsens svar) document.
+///
 /// #set raw(lang: "typst")
-/// Creates a board response (styrelsens svar) document. Apply with `#show: styrelsens-svar.with(...)` or `#show: board-response.with(...)`.
+/// Apply with `#show: styrelsens-svar.with(..)` or `#show: board-response.with(..)`.
 ///
 /// === Notes
 /// - Author signatures are appended automatically through the `authors` parameter.

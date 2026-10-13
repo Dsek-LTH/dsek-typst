@@ -1,8 +1,10 @@
 #import "deliberation.typ": deliberation
 #import "../../../lib/_mod.typ": translate
 
+/// Creates a consideration (handling) document.
+///
 /// #set raw(lang: "typst")
-/// Creates a consideration (handling) document. Apply with `#show: handling.with(...)` or `#show: consideration.with(...)`.
+/// Apply with `#show: handling.with(..)` or `#show: consideration.with(..)`.
 ///
 /// === Notes
 /// - Author signatures are appended automatically through the `authors` parameter.
