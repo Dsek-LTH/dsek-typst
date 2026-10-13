@@ -2,6 +2,7 @@
 description = "Document types for the D-guild's various documents"
 name = "dsek"
 version = "0.1.0"
+compiler = "0.15.0"
 entrypoint = "src/lib.typ"
 authors = ["D-sektionen inom TLTH (cpu@dsek.se)"]
 license = "MIT"
