@@ -36,9 +36,9 @@
                 + " elements, expected at most 3\n  hint: each entry is either just a name, (name, position) or (name, position, (from?: ..., to?: ...)), e.g."
                 + "\n   - \"Truls Teknolog\" "
                 + "\n   - (\"Truls Teknolog\", \"Kårkontakt\") "
-                + "\n   - (\"Truls Teknolog\", \"Kårkontakt\", (from: [@tmfö]))",
-              +"\n   - (\"Truls Teknolog\", \"Kårkontakt\", (to: [@utskottsrapporter]))",
-              +"\n   - (\"Truls Teknolog\", \"Kårkontakt\", (from: [@tmfö], to: [@utskottsrapporter]))",
+                + "\n   - (\"Truls Teknolog\", \"Kårkontakt\", (from: [@tmfö]))"
+                + "\n   - (\"Truls Teknolog\", \"Kårkontakt\", (to: [@utskottsrapporter]))"
+                + "\n   - (\"Truls Teknolog\", \"Kårkontakt\", (from: [@tmfö], to: [@utskottsrapporter]))",
             )
             name-pos
           }
