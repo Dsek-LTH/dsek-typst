@@ -2,8 +2,10 @@
 #import "../../lib/_mod.typ": *
 #import "../../lib/utils/date.typ": custom-date-format
 
+/// Creates a requirements profile (kravprofil) for an elected position.
+///
 /// #set raw(lang: "typst")
-/// Creates a requirements profile (kravprofil) for an elected position. Apply with `#show: kravprofil.with(...)` or `#show: requirements-profile.with(...)`.
+/// Apply with `#show: kravprofil.with(..)` or `#show: requirements-profile.with(..)`.
 ///
 /// === Notes
 /// - A mandate-period row is rendered first, then the body as a preamble, and finally the requirements and merits as a two-column bullet list.

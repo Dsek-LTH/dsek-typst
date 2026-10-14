@@ -1,8 +1,10 @@
 #import "governing-document.typ": governing-document
 #import "../../lib/_mod.typ": *
 
+/// Creates a guideline (riktlinje) document.
+///
 /// #set raw(lang: "typst")
-/// Creates a guideline (riktlinje) document. Apply with `#show: riktlinje.with(...)` or `#show: guideline.with(...)`.
+/// Apply with `#show: riktlinje.with(..)` or `#show: guideline.with(..)`.
 ///
 /// === Notes
 /// - The document begins with an "Översikt" / "Overview" section containing the summary, purpose, scope, and a revision history table. A page break separates the Overview section from the body.

@@ -1,8 +1,10 @@
 #import "deliberation.typ": deliberation
 #import "../../../lib/_mod.typ": translate
 
+/// Creates a proposal (proposition) document.
+///
 /// #set raw(lang: "typst")
-/// Creates a proposal (proposition) document. Apply with `#show: proposition.with(...)` or `#show: proposal.with(...)`.
+/// Apply with `#show: proposition.with(..)` or `#show: proposal.with(..)`.
 ///
 /// === Notes
 /// - Author signatures are appended automatically through the `authors` parameter.

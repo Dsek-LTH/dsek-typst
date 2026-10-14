@@ -13,9 +13,11 @@ To use the `dsek` templates in your project, import it and apply a template usin
 ```typst
 #import "@preview/dsek:0.1.0": *
 #show: motion.with(
-    title: "Typst-mallar för styrdokumenten",
-    meeting: "HTM1",
-    authors: (name: "Truls Teknolog"),
+  title: "Typst-mallar för styrdokumenten",
+  meeting: "HTM1",
+  authors: (
+    (name: "Truls Teknolog"),
+  )
 )
 
 = Introduktion
@@ -50,6 +52,25 @@ The currently available templates (along with their Swedish bindings) are:
 > Almost all templates have slightly differing parameters. Check the documentation if you're unsure which one goes where.
 
 Click on each template name to see an example document using that template. You can click [here](examples/src) to view the source code for each example, or [read the full documentation here](./docs/templates-docs.pdf?raw=true).
+
+## Changelog
+
+### v0.1.1
+
+#### Changes
+
+- Added a minimum compiler version (`0.15`)
+- Changed parameters for `equal-treatment-plan` (removed `meeting`, added `year`)
+- The `meeting` parameter for `notice` is now required
+
+#### Bug fixes
+
+- Fixed code example in `README.md` not compiling
+- Fixed docstrings not rendering correctly on [typst.app](https://typst.app)
+
+### v0.1.0
+
+- Initial version
 
 ## License
 

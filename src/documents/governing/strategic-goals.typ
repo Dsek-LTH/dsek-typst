@@ -1,8 +1,10 @@
 #import "governing-document.typ": governing-document
 #import "../../lib/_mod.typ": *
 
+/// Creates a strategic goals (strategiska mål) document.
+///
 /// #set raw(lang: "typst")
-/// Creates a strategic goals (strategiska mål) document. Apply with `#show: strategiska-mål.with(...)` or `#show: strategic-goals.with(...)`.
+/// Apply with `#show: strategiska-mål.with(..)` or `#show: strategic-goals.with(..)`.
 ///
 /// === Notes
 /// - The document begins with an "Översikt" / "Overview" section containing the summary, purpose, scope, and a revision history table. A page break separates the Overview section from the body.

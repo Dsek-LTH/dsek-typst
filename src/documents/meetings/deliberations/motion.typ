@@ -1,7 +1,9 @@
 #import "deliberation.typ": deliberation
 
+/// Creates a motion document.
+///
 /// #set raw(lang: "typst")
-/// Creates a motion document. Apply with `#show: motion.with(...)`.
+/// Apply with `#show: motion.with(..)`.
 ///
 /// === Notes
 /// - Author signatures are appended automatically through the `authors` parameter.

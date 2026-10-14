@@ -1,8 +1,10 @@
 #import "../plain-document.typ": plain-document
 #import "../../lib/_mod.typ": *
 
+/// Creates an Equal treatment plan (likabehandlingsplan) document.
+///
 /// #set raw(lang: "typst")
-/// Creates an Equal treatment plan (likabehandlingsplan) document. Apply with `#show: likabehandlingsplan.with(...)` or `#show: equal-treatment-plan.with(...)`.
+/// Apply with `#show: likabehandlingsplan.with(..)` or `#show: equal-treatment-plan.with(..)`.
 ///
 /// === Example
 /// ```typst
@@ -10,15 +12,16 @@
 /// #import strings: km
 ///
 /// #show: likabehandlingsplan.with(
-///   committee: km.name, // title becomes "Likabehandlingsplan - Källarmästeriet"
-///   meeting: [S21],
+///   // title becomes "Likabehandlingsplan för Källarmästeriet 2026"
+///   committee: km.name,
+///   year: 2026
 /// )
 ///
 /// Vi ska verka för att alla ska få lika mycket köttfärssås på Snickerboa.
 /// ```
 ///
 /// - committee (str, content): The committee the plan applies to.
-/// - meeting (str, content): The meeting for which the document was written, e.g. `"HTM1"`.
+/// - year (int): The year for which the plan is active. Defaults to next year.
 /// - date (datetime): The date at which the document was written.
 /// - lang (str): The language of the document (same format as `text.lang`).
 ///               Only "sv" and "en" are supported.
@@ -27,19 +30,17 @@
 /// -> content
 #let equal-treatment-plan(
   committee: none,
-  meeting: none,
+  year: datetime.today().year() + 1,
   date: datetime.today(),
   lang: "sv",
   body,
 ) = {
   let etp = "equal-treatment-plan"
   required(committee, "committee", fn: etp)
-  required(meeting, "meeting", fn: etp)
   let plan-name = translate("Likabehandlingsplan", "Equal Treatment Plan")
   show: plain-document.with(
-    title: [#plan-name -- #committee],
+    title: [#plan-name #context translate-str("för", "for") #committee #year],
     doc-type: plan-name,
-    meeting: meeting,
     date: date,
     lang: lang,
   )

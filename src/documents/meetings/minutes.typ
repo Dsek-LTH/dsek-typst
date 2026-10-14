@@ -36,9 +36,9 @@
                 + " elements, expected at most 3\n  hint: each entry is either just a name, (name, position) or (name, position, (from?: ..., to?: ...)), e.g."
                 + "\n   - \"Truls Teknolog\" "
                 + "\n   - (\"Truls Teknolog\", \"Kårkontakt\") "
-                + "\n   - (\"Truls Teknolog\", \"Kårkontakt\", (from: [@tmfö]))",
-              +"\n   - (\"Truls Teknolog\", \"Kårkontakt\", (to: [@utskottsrapporter]))",
-              +"\n   - (\"Truls Teknolog\", \"Kårkontakt\", (from: [@tmfö], to: [@utskottsrapporter]))",
+                + "\n   - (\"Truls Teknolog\", \"Kårkontakt\", (from: [@tmfö]))"
+                + "\n   - (\"Truls Teknolog\", \"Kårkontakt\", (to: [@utskottsrapporter]))"
+                + "\n   - (\"Truls Teknolog\", \"Kårkontakt\", (from: [@tmfö], to: [@utskottsrapporter]))",
             )
             name-pos
           }
@@ -82,8 +82,10 @@
   )
 }
 
+/// Creates a meeting minutes (protokoll) document.
+///
 /// #set raw(lang: "typst")
-/// Creates a meeting minutes (protokoll) document. Apply with `#show: protokoll.with(...)` or `#show: minutes.with(...)`.
+/// Apply with `#show: protokoll.with(..)` or `#show: minutes.with(..)`.
 ///
 /// === Notes
 /// - The body uses `/ Term: description` syntax where each term is an agenda item title and the

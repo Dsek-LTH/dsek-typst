@@ -1,8 +1,10 @@
 #import "governing-document.typ": governing-document
 #import "../../lib/_mod.typ": *
 
+/// Creates a policy document.
+///
 /// #set raw(lang: "typst")
-/// Creates a policy document. Apply with `#show: policy.with(...)`.
+/// Apply with `#show: policy.with(..)`.
 ///
 /// === Notes
 /// - The document begins with an "Översikt" / "Overview" section containing the summary, purpose, scope, and a revision history table. A page break separates the Overview section from the body.
