@@ -39,3 +39,15 @@
     second: s,
   )
 }
+
+/// Formats a datetime object with weekday, day, month, and year.
+#let format-date-verbose(datetime) = custom-date-format(datetime, lang: text.lang, pattern: "full")
+
+/// Formats a datetime object with day, month, and year.
+#let format-date(datetime) = custom-date-format(datetime, lang: text.lang, pattern: "long")
+
+/// Formats a datetime object with day, month abbreviation, and year.
+#let format-date-abbreviated(datetime) = custom-date-format(datetime, lang: text.lang, pattern: "medium")
+
+/// Formats a datetime object as HH:MM.
+#let format-time(datetime) = datetime.display("[hour repr:24]:[minute]")

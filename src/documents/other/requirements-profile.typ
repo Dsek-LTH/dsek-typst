@@ -1,6 +1,6 @@
 #import "../plain-document.typ": plain-document
 #import "../../lib/_mod.typ": *
-#import "../../lib/utils/date.typ": custom-date-format
+#import "../../lib/utils/date.typ": format-date
 
 /// Creates a requirements profile (kravprofil) for an elected position.
 ///
@@ -100,8 +100,8 @@
     mandate
   }
 
-  let from = context custom-date-format(mandate.from, pattern: "medium", lang: text.lang)
-  let to = context custom-date-format(mandate.to, pattern: "medium", lang: text.lang)
+  let from = context format-date-abbreviated(mandate.from)
+  let to = context format-date-abbreviated(mandate.to)
   grid(
     columns: 2,
     column-gutter: 1em,

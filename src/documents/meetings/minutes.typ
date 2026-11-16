@@ -1,6 +1,6 @@
 #import "../plain-document.typ": plain-document
 #import "../../lib/_mod.typ": *
-#import "../../lib/utils/date.typ": custom-date-format
+#import "../../lib/utils/date.typ": format-date
 
 #let attendance(..names) = {
   show grid.cell: set par(justify: false)
@@ -228,7 +228,7 @@
 
   let reviewers = if type(reviewers) == array { reviewers } else { (reviewers,) }
   let minutes-name = translate("Protokoll", "Meeting minutes")
-  let meeting-time = custom-date-format(date, pattern: "long", lang: lang)
+  let meeting-time = context format-date(date)
   let meeting-type = detect-meeting-type(meeting, meeting-type)
 
   show terms: minutes-fmt

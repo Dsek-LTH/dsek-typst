@@ -1,6 +1,6 @@
 #import "../lib/_mod.typ": *
 #import strings: guild
-#import "../lib/utils/date.typ": custom-date-format
+#import "../lib/utils/date.typ": format-date
 // #import graphics: apply-graphics, symbol-map
 
 //   ▄▄▄▄ ▄▄▄▄▄▄ ▄▄ ▄▄ ▄▄    ▄▄ ▄▄  ▄▄  ▄▄▄▄
@@ -49,7 +49,7 @@
       box(width: 60mm)[
         #set align(right)
         #meeting \
-        #custom-date-format(date, pattern: "long", lang: text.lang)
+        #format-date(date)
       ],
     )
   ],
@@ -95,7 +95,7 @@
     #translate("Organisationsnummer", "Company registration number"): 845003-2878
   ])
   #place(bottom, text(size: 13pt, font: serif)[
-    #context custom-date-format(date, pattern: "long", lang: text.lang)
+    #context format-date(date)
   ])
 ]
 

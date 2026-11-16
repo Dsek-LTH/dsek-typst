@@ -1,6 +1,6 @@
 #import "../plain-document.typ": plain-document
 #import "../../lib/_mod.typ": *
-#import "../../lib/utils/date.typ": custom-date-format
+#import "../../lib/utils/date.typ": format-date-full, format-time
 
 /// Creates a meeting notice/summons (kallelse) document.
 ///
@@ -86,7 +86,7 @@
   required(time, "time", fn: "notice", hint: "use the date() helper, e.g. time: date(15, 3, 2026, time: (12, 15))")
 
   let notice-name = translate("Kallelse", "Notice")
-  let meeting-time = context custom-date-format(time, pattern: "full", lang: text.lang)
+  let meeting-time = context format-date-full(time)
   let meeting-type = detect-meeting-type(meeting, meeting-type)
 
   show: plain-document.with(
@@ -106,30 +106,31 @@
   )
   v(0.5em)
 
-  let date-fmt(time) = context [
-    #let day = custom-date-format(time, pattern: "full", lang: text.lang)
-    #let time = translate(
-      time.display("[hour repr:24]:[minute]"),
-      time.display("[hour repr:12]:[minute] [period]"),
-    )
-    #day.replace(regex("^\w"), m => upper(m.text))
-    #translate([klockan], [at])
-    #time
-  ]
+  let format-date-and-time(time) = context {
+    let day = format-date(time)
+    let time = format-time(time)
 
-  let time-and-date = (
+    [
+      #day.replace(regex("^\w"), m => upper(m.text))
+      #translate([klockan], [at])
+      #time
+    ]
+  }
+
+  let date-and-time = (
     [*#translate("Tid", "Time"):*],
-    date-fmt(time),
+    format-date-and-time(time),
     [*#translate("Plats", "Location"):*],
     location,
   )
 
   if adjournment != none {
     let hint = "use either a single `date(...)` or a dictionary `(date: date(...), location: [...])`"
-    time-and-date.push([*#translate("Ajourneringsdag", "Adjournment day")*:])
-    time-and-date.push({
+
+    date-and-time.push([*#translate("Ajourneringsdag", "Adjournment day")*:])
+    date-and-time.push({
       if type(adjournment) == datetime {
-        date-fmt(adjournment)
+        format-date-and-time(adjournment)
       } else if type(adjournment) == dictionary {
         required-keys(
           adjournment,
@@ -137,7 +138,7 @@
           hint: hint,
         )
         [
-          #date-fmt(adjournment.date)
+          #format-date-and-time(adjournment.date)
           #context translate-str("i", "in")
           #adjournment.location
         ]
@@ -158,7 +159,7 @@
     stroke: none,
     row-gutter: 1em,
     column-gutter: 1em,
-    ..time-and-date
+    ..date-and-time
   )
 
   show list: agenda-fmt.with(make-heading: true)
