@@ -1,6 +1,6 @@
 #import "../plain-document.typ": plain-document
 #import "../../lib/_mod.typ": *
-#import "../../lib/utils/date.typ": custom-date-format
+#import "../../lib/utils/date.typ": format-date
 
 /// Creates an agenda (föredragningslista) document.
 ///
