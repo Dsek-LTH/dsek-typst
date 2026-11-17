@@ -1,6 +1,6 @@
 #import "../plain-document.typ": plain-document
 #import "../../lib/_mod.typ": *
-#import "../../lib/utils/date.typ": format-date-full, format-time
+#import "../../lib/utils/date.typ": format-date-verbose, format-time
 
 /// Creates a meeting notice/summons (kallelse) document.
 ///
@@ -86,7 +86,7 @@
   required(time, "time", fn: "notice", hint: "use the date() helper, e.g. time: date(15, 3, 2026, time: (12, 15))")
 
   let notice-name = translate("Kallelse", "Notice")
-  let meeting-time = context format-date-full(time)
+  let meeting-time = context format-date-verbose(time)
   let meeting-type = detect-meeting-type(meeting, meeting-type)
 
   show: plain-document.with(
