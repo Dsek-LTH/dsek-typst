@@ -1,6 +1,6 @@
 #import "../plain-document.typ": plain-document
 #import "../../lib/_mod.typ": *
-#import "../../lib/utils/date.typ": format-date
+#import "../../lib/utils/date.typ": format-date-abbreviated
 
 /// Creates a requirements profile (kravprofil) for an elected position.
 ///
