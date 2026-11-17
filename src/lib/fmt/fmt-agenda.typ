@@ -24,7 +24,7 @@
   for url in links {
     if url.dest not in displays {
       // Typst makes no distinction.
-      let is-body-auto-generated = url.body.text == url.dest
+      let is-body-auto-generated = url.body.has("text") and url.body.text == url.dest
 
       if not is-body-auto-generated {
         displays.insert(url.dest, url)

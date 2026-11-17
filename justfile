@@ -8,7 +8,11 @@ font_directory := "fonts"
 source_directory := "src"
 
 # Build all files and run all tests
-test: compile-source-files build-examples build-documentation
+test: compile-source-files build-examples build-documentation tytanic
+
+# Cleans non-tracked output
+clean:
+    tt util clean
 
 # Build all examples
 build-examples:
@@ -40,6 +44,17 @@ install-fonts:
 # Uninstalls the fonts as installed by `install-fonts`
 uninstall-fonts:
     fonts/install uninstall
+
+# Run all tytanic tests
+tytanic:
+    tt run \
+        --font-path '{{font_directory}}'
+
+# Bless the output of some (or all) tests
+bless *tests:
+    tt update \
+        --font-path '{{font_directory}}' \
+        -- {{tests}}
 
 [private]
 build-example example:
