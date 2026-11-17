@@ -7,12 +7,11 @@ examples := "examples/src/*.typ"
 font_directory := "fonts"
 source_directory := "src"
 
-# Build all files and run all tests
-test: compile-source-files build-examples build-documentation tytanic
-
-# Cleans non-tracked output
-clean:
-    tt util clean
+# Bless the output of some (or all) tests
+bless *tests:
+    tt update \
+        --font-path '{{font_directory}}' \
+        -- {{tests}}
 
 # Build all examples
 build-examples:
@@ -22,6 +21,10 @@ build-examples:
     for file in {{examples}}; do
         just build-example "$file"
     done
+
+# Cleans non-tracked output
+clean:
+    tt util clean
 
 # Make sure all source files compile
 compile-source-files:
@@ -41,30 +44,17 @@ build-documentation:
 install-fonts:
     fonts/install
 
-# Uninstalls the fonts as installed by `install-fonts`
-uninstall-fonts:
-    fonts/install uninstall
+# Build all files and run all tests
+test: compile-source-files build-examples build-documentation tytanic
 
 # Run all tytanic tests
 tytanic:
     tt run \
         --font-path '{{font_directory}}'
 
-# Bless the output of some (or all) tests
-bless *tests:
-    tt update \
-        --font-path '{{font_directory}}' \
-        -- {{tests}}
-
-[private]
-build-example example:
-    echo 'Building the {{file_stem(example)}} example...'
-    just compile '{{example}}' '{{example_directory / file_stem(example)}}'.pdf
-
-[private]
-compile-source-file file:
-    echo 'Compiling {{file}}...'
-    just compile '{{file}}' -
+# Uninstalls the fonts as installed by `install-fonts`
+uninstall-fonts:
+    fonts/install uninstall
 
 [private]
 compile input output='':
@@ -73,3 +63,13 @@ compile input output='':
         --font-path '{{font_directory}}' \
         '{{input}}' {{output}} \
         > /dev/null
+
+[private]
+compile-source-file file:
+    echo 'Compiling {{file}}...'
+    just compile '{{file}}' -
+
+[private]
+build-example example:
+    echo 'Building the {{file_stem(example)}} example...'
+    just compile '{{example}}' '{{example_directory / file_stem(example)}}'.pdf
