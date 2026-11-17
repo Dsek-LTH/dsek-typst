@@ -1,7 +1,7 @@
 #import "/src/lib.typ": *
 
 #show: riktlinje.with(
-  subject: "sektionsbilens användning",
+  subject: "sektionsbilens användning", // title becomes "Riktlinje för sektionsbilens användning"
   summary: [Riktlinjen beskriver hur man inte är en trafikfara.],
   purpose: [Syftet med denna riktlinje är att undvika ännu ett VTM-extra.],
   scope: [Alla på sektionen som har körkort.],

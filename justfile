@@ -56,6 +56,9 @@ tytanic:
 uninstall-fonts:
     fonts/install uninstall
 
+# Updates the examples from the tests
+update-examples: copy-examples build-examples
+
 [private]
 compile input output='':
     typst compile \
@@ -63,6 +66,19 @@ compile input output='':
         --font-path '{{font_directory}}' \
         '{{input}}' {{output}} \
         > /dev/null
+
+[private]
+copy-examples:
+    #!/bin/sh
+    set -e
+
+    package_version=$(sed -n 's|^version = "\(.*\)"$|\1|p' typst.toml)
+
+    for test in tests/examples/*/; do
+        sed "s|/src/lib.typ|@preview/dsek:$package_version|g" \
+            "$test/test.typ" \
+            > "examples/src/$(basename "$test").typ"
+    done
 
 [private]
 compile-source-file file:
