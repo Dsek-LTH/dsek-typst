@@ -12,13 +12,21 @@ test: compile-source-files build-examples build-documentation
 
 # Build all examples
 build-examples:
-    for file in {{examples}}; do just build-example "$file"; done
+    #!/bin/sh
+    set -e
+
+    for file in {{examples}}; do
+        just build-example "$file"
+    done
 
 # Make sure all source files compile
 compile-source-files:
-    find {{source_directory}} \
-        -name '*.typ' \
-        -exec just compile-source-file {} \;
+    #!/bin/sh
+    set -e
+
+    for file in $(find {{source_directory}} -name '*.typ'); do
+        just compile-source-file "$file"
+    done
 
 # Build the documentation
 build-documentation:

@@ -1,0 +1,21 @@
+name: Typst CI
+
+on:
+  push:
+    branches: ["main"]
+  pull_request:
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    steps:
+      # This is copied from the `web` repo.
+      - uses: actions/checkout@v7
+        with:
+          fetch-depth: 0
+
+      - uses: typst-community/setup-typst@v5
+      - uses: extractions/setup-just@v4
+
+      - run: just test
