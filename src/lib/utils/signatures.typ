@@ -44,6 +44,8 @@
   authors,
   default-message: translate("Lund, dag som ovan", "Lund, day as above"),
   default-position: translate("Sektionsmedlem", "Guild member"),
+  columns: 3, // TODO: calculate based on longest width?
+  create-labels: true
 ) = {
   let authors = if type(authors) == array {
     authors.map(author => {
@@ -69,20 +71,24 @@
   v(1.5em)
   table(
     stroke: none,
-    columns: 3, // TODO: calculate based on longest width?
+    columns: columns,
     row-gutter: 2em,
     ..authors.map(author => {
       let message = author.at("message", default: default-message)
       let position = author.at("position", default: default-position)
-      let lbl = if type(author.name) == content {
-        to-label(to-text(author.name))
-      } else {
-        to-label(author.name)
-      }
-      let name = context {
-        show heading: set text(font: text.font, weight: text.weight, size: text.size)
-        set heading(depth: ref-id.person, numbering: none, outlined: false)
-        [#heading(author.name, supplement: position) #label(lbl)]
+
+      let name = if not create-labels { author.name } else {
+        let label-name = if type(author.name) == content {
+          to-label(to-text(author.name))
+        } else {
+          to-label(author.name)
+        }
+
+        context {
+          show heading: set text(font: text.font, weight: text.weight, size: text.size)
+          set heading(depth: ref-id.person, numbering: none, outlined: false)
+          [#heading(author.name, supplement: position) #label(label-name)]
+        }
       }
 
       signature(

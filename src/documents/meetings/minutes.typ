@@ -2,7 +2,97 @@
 #import "../../lib/_mod.typ": *
 #import "../../lib/utils/date.typ": format-date
 
-#let attendance(..names) = {
+/// Parses an entry in the attendance list into an array of name, position and presence.
+#let parse-attendance-entry(entry)  = {
+  if type(entry) != array {
+    return (entry, none, (:))
+  }
+
+  if entry.len() == 1 {
+    let (name,) = entry;
+
+    (name, none, (:))
+  } else if entry.len() == 2 {
+    let (name, second-arg) = entry
+
+    if type(second-arg) == dictionary {
+      let presence = second-arg
+      required-keys(presence, (), allowed: ("from", "to"), fn: "attendance")
+
+      (name, none, presence)
+    } else {
+      let position = second-arg
+
+      (name, position, (:))
+    }
+  } else if entry.len() == 3 {
+    required-keys(entry.at(2), (), allowed: ("from", "to"), fn: "attendance")
+    entry
+  } else {
+    panic(
+      "attendance: attendee entry has "
+        + str(entry.len())
+        + " elements, expected 1 to 3"
+        + "\n  hint: each entry is either just a name, (name, position) or (name, position, (from?: ..., to?: ...)), e.g."
+        + "\n   - \"Truls Teknolog\" "
+        + "\n   - (\"Truls Teknolog\", \"Kårkontakt\") "
+        + "\n   - (\"Truls Teknolog\", \"Kårkontakt\", (from: [@tmfö]))",
+        + "\n   - (\"Truls Teknolog\", \"Kårkontakt\", (to: [@utskottsrapporter]))",
+        + "\n   - (\"Truls Teknolog\", \"Kårkontakt\", (from: [@tmfö], to: [@utskottsrapporter]))",
+    )
+  }
+}
+
+/// Constructs description for when a person was present at the meeting.
+#let display-presence(from, to) = context {
+  if (from, to) != (none, none) {
+    translate-str("närvarande", "present")
+  }
+  if from != none and to == none [
+    #translate-str("fr.o.m", "from") #from
+  ] else if from == none and to != none [
+    #translate-str("t.o.m", "until") #to
+  ] else if from != none and to != none [
+    #from -- #to
+  ]
+}
+
+/// Creates a row for the attendance table.
+#let make-attendance-row(index, name-pos) = {
+  let (name, position, when) = parse-attendance-entry(name-pos)
+
+  let column-header = if index == 0 [*#translate("Närvaro", "Attendance"):*]
+
+  // This creates a heading that looks exactly like body text.
+  // However, headings can carry labels, which means that you can @ref them.
+  // Furthermore, you can attach an extra information using the depth parameter,
+  // allowing us to differentiate different kinds of pseudo-headings.
+  // TODO: Create a function for this since it is used elsewhere.
+  let referenceable-name = context [
+    #show heading: set text(font: text.font, weight: text.weight, size: text.size)
+    #set heading(depth: ref-id.person, numbering: none, outlined: false)
+    #heading(name, supplement: position) #label(to-label(name))
+  ]
+
+  let from = when.at("from", default: none)
+  let to = when.at("to", default: none)
+
+  (
+    column-header,
+    referenceable-name,
+    position,
+    display-presence(from, to),
+  )
+}
+
+/// Constructs a table that shows everyone who attended the meeting.
+/// This also includes a persons relevant position and (if applicable) when they arrived/left.
+#let attendance(..arguments) = {
+
+  assert(arguments.named().len() == 0)
+
+  let names = arguments.pos()
+
   show grid.cell: set par(justify: false)
   grid(
     columns: (auto, auto, 1fr, auto),
@@ -10,80 +100,43 @@
     row-gutter: 0.55em,
     column-gutter: 1em,
     stroke: none,
-    ..names
-      .pos()
-      .enumerate()
-      .map(xi => {
-        let (i, name-pos) = xi
-        let (name, position, when) = if type(name-pos) == array {
-          if (name-pos.len() == 1) {
-            (..name-pos, none, (:))
-          } else if (name-pos.len() == 2) {
-            if type(name-pos.at(1)) == dictionary {
-              required-keys(name-pos.at(1), (), allowed: ("from", "to"), fn: "attendance")
-              (name-pos.at(0), none, name-pos.at(1))
-            } else {
-              (..name-pos, (:))
-            }
-          } else if (name-pos.len() == 3) {
-            required-keys(name-pos.at(2), (), allowed: ("from", "to"), fn: "attendance")
-            name-pos
-          } else {
-            assert(
-              name-pos.len() <= 3,
-              message: "attendance: attendee entry has "
-                + str(name-pos.len())
-                + " elements, expected at most 3\n  hint: each entry is either just a name, (name, position) or (name, position, (from?: ..., to?: ...)), e.g."
-                + "\n   - \"Truls Teknolog\" "
-                + "\n   - (\"Truls Teknolog\", \"Kårkontakt\") "
-                + "\n   - (\"Truls Teknolog\", \"Kårkontakt\", (from: [@tmfö]))"
-                + "\n   - (\"Truls Teknolog\", \"Kårkontakt\", (to: [@utskottsrapporter]))"
-                + "\n   - (\"Truls Teknolog\", \"Kårkontakt\", (from: [@tmfö], to: [@utskottsrapporter]))",
-            )
-            name-pos
-          }
-        } else {
-          (name-pos, none, (:))
-        }
 
-        (
-          if i == 0 [*#translate("Närvaro", "Attendance"):*],
-          context [
-            // q) why headings?
-            // a) you can pass along hidden data with supplement
-            // meaning you can access mandates directly from the reference :)
-            // also you can make it behave exactly like text
-            #show heading: set text(font: text.font, weight: text.weight, size: text.size)
-            #set heading(depth: ref-id.person, numbering: none, outlined: false)
-            #heading(name, supplement: position) #label(to-label(name))
-          ],
-          position,
-          {
-            let (from, to) = (when.at("from", default: none), when.at("to", default: none))
-            context [
-              #if (from, to) != (none, none) { translate-str("närvarande", "present") }
-              #if from != none and to == none [
-                #translate-str("fr.o.m", "from") #from
-              ] else if from == none and to != none [
-                #translate-str("t.o.m", "until") #to
-              ] else if from != none and to != none [
-                #from -- #to
-              ] else []
-            ]
-          },
-          // if when.len() == 0 [] else [
-          //   #box(width: 1.5em, align(right, when.at("from", default: none)))
-          //   #sym.dash.en
-          //   #box(width: 1.5em, align(left, when.at("to", default: none)))
-          // ],
-        )
-      })
+    ..names
+      .enumerate()
+      .map(((index, entry)) => make-attendance-row(index, entry))
       .flatten()
   )
 }
 
-/// Creates a meeting minutes (protokoll) document.
-///
+/// Parse the presider fields (chair and secretary) into a "person" object.
+#let parse-presider(presider) = if type(presider) == dictionary {
+  required-keys(
+    presider,
+    ("name",),
+    allowed: ("name", "position", "message", "signature"),
+    fn: "author-signatures",
+    hint: "each author dict needs at least `name`, e.g. (name: \"Truls Teknolog\", position: \"Gammal och dryg\") -- `position`, `message`, and `signature` are optional (but have default values)",
+  )
+  presider
+} else {
+  (name: presider)
+}
+
+/// The watermark to apply over unattested documents.
+#let unattested-watermark = {
+  set align(center + horizon)
+  show rotate: set block(width: 150%)
+  rotate(-45deg, text(
+    size: 100pt,
+    fill: luma(93%),
+    weight: "bold",
+    translate("OJUSTERAT", "UNATTESTED"),
+  ))
+}
+
+/// Parses the reviewer field which may be an array of reviewers or a single one.
+#let parse-reviewers(reviewers) = if type(reviewers) == array { reviewers } else { (reviewers,) }
+
 /// #set raw(lang: "typst")
 /// Apply with `#show: protokoll.with(..)` or `#show: minutes.with(..)`.
 ///
@@ -197,36 +250,12 @@
   required(chair, "chair", fn: "minutes")
   required(secretary, "secretary", fn: "minutes")
 
-  let check-presiders(author) = if type(author) == dictionary {
-    required-keys(
-      author,
-      ("name",),
-      allowed: ("name", "position", "message", "signature"),
-      fn: "author-signatures",
-      hint: "each author dict needs at least `name`, e.g. (name: \"Truls Teknolog\", position: \"Gammal och dryg\") -- `position`, `message`, and `signature` are optional (but have default values)",
-    )
-    author
-  } else {
-    (name: author)
-  }
+  let chair = parse-presider(chair)
+  let secretary = parse-presider(secretary)
 
-  let chair = check-presiders(chair)
-  let secretary = check-presiders(secretary)
+  set page(background: if not attested { unattested-watermark })
 
-  let watermark = if not attested {
-    set align(center + horizon)
-    show rotate: set block(width: 150%)
-    rotate(-45deg, text(
-      size: 100pt,
-      fill: luma(93%),
-      weight: "bold",
-      translate("OJUSTERAT", "UNATTESTED"),
-    ))
-  }
-
-  set page(background: watermark)
-
-  let reviewers = if type(reviewers) == array { reviewers } else { (reviewers,) }
+  let reviewers = parse-reviewers(reviewers)
   let minutes-name = translate("Protokoll", "Meeting minutes")
   let meeting-time = context format-date(date)
   let meeting-type = detect-meeting-type(meeting, meeting-type)
@@ -240,38 +269,39 @@
     date: date,
   )
 
-  set document(title: [#minutes-name #meeting], author: to-text(secretary))
+  set document(title: [#minutes-name #meeting], author: to-text(secretary.name))
 
   attendance(..attendees)
   v(2em)
   body
-  v(1em)
 
-  table(
-    stroke: none,
+  author-signatures(
+    // There are usually 2 reviewers so this puts all signatures on one row.
     columns: 4,
-    row-gutter: 2em,
-    signature(
-      translate("Vid protokollet", "Recorded by"),
-      secretary.name,
-      translate("Mötessekreterare", "Meeting secretary"),
-      image: secretary.at("signature", default: none),
-    ),
-    signature(
-      translate("Vid mötet", "Presided by"),
-      chair.name,
-      translate("Mötesordförande", "Meeting chair"),
-      image: chair.at("signature", default: none),
-    ),
-    ..reviewers.map(reviewer => context {
-      signature(
-        translate("Justeras", "Attested by"),
-        reviewer,
-        translate("Justerare", "Minute reviewer"),
-      )
-    }),
+    // We have labels in the attendance.
+    create-labels: false,
+    (
+      (
+        message: translate("Vid protokollet", "Recorded by"),
+        signature: secretary.at("signature", default: none),
+        name: secretary.name,
+        position: translate("Mötessekreterare", "Meeting secretary"),
+      ),
+      (
+        message: translate("Vid mötet", "Presided by"),
+        signature: chair.at("signature", default: none),
+        name: chair.name,
+        position: translate("Mötesordförande", "Meeting chair"),
+      ),
+      ..reviewers.map(reviewer => (
+        message: translate("Justeras", "Attested by"),
+        signature: reviewer.at("signature", default: none),
+        name: reviewer,
+        position: translate("Justerare", "Minute reviewer"),
+      ))
+    )
   )
 }
 
-/// Swedish binding for `minutes`
+/// Swedish binding for `minutes`.
 #let protokoll = minutes
