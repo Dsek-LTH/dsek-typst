@@ -1,0 +1,52 @@
+#!/bin/sh
+
+set -eu
+
+cd "$(dirname "$0")"
+
+os="$(uname)"
+
+case "$os" in
+'Windows NT')
+    echo 'Windows is not supported at the moment by this script.'
+    echo 'Consider using a VM like WSL.'
+    echo 'You can go into the fonts directory with the file explorer and manually install them.'
+    exit 1
+    ;;
+Darwin)
+     install_location="$HOME/Library/Fonts"
+    ;;
+*)
+    XDG_DATA_HOME="${XDG_DATA_HOME:-"$HOME/.local/share"}"
+
+    install_location="$XDG_DATA_HOME/fonts"
+    ;;
+esac
+
+case "${1-}" in
+'')
+    echo "Installing the fonts into $install_location"
+
+    for font in *.otc *.otf; do
+        echo "  Installing $font"
+        cp "$font" "$install_location"
+    done
+
+    echo 'Done!'
+    echo "You can use '$0 uninstall' if you wish to uninstall the fonts."
+    ;;
+uninstall)
+    echo "Uninstalling the fonts from $install_location"
+
+    for font in *.otc *.otf; do
+        echo "  Uninstalling $font"
+        rm "$install_location/$font"
+    done
+
+    echo 'Done!'
+    ;;
+*)
+    echo "Unknown action '$1'"
+    exit 1
+    ;;
+esac

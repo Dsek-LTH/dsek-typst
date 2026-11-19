@@ -33,6 +33,14 @@ build-documentation:
     echo 'Building the {{template_documentation}} documentation...'
     just compile '{{template_documentation}}'
 
+# Installs the fonts locally for the current user
+install-fonts:
+    fonts/install
+
+# Uninstalls the fonts as installed by `install-fonts`
+uninstall-fonts:
+    fonts/install uninstall
+
 [private]
 build-example example:
     echo 'Building the {{file_stem(example)}} example...'
