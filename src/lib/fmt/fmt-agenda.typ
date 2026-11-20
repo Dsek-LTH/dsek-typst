@@ -15,27 +15,35 @@
   valid-opening and valid-closing
 }
 
+/// Detects if a link was produced by `link("https://example.com")` (without adding a body).
+/// This means that the link should be displayed as a number.
+/// This will give a false positive if you pass the same value to the body as the url.
+#let should-link-be-numbered(link) = link.body.text == link.dest
+
 /// Creates a map from a URL string to a `link` object from a list of `link` objects.
 /// Unless a link has a specific display set, an incrementing number will be used.
-#let make-link-displays(links) = {
-  let displays = (:)
+#let link-formatter(links) = {
+  let numbers = (:)
   let counter = 1
 
-  for url in links {
-    if url.dest not in displays {
-      // Typst makes no distinction.
-      let is-body-auto-generated = url.body.text == url.dest
+  for link in links {
+    let url = link.dest
 
-      if not is-body-auto-generated {
-        displays.insert(url.dest, url)
-      } else {
-        displays.insert(url.dest, link(url.dest)[#counter])
+    if url not in numbers {
+      if should-link-be-numbered(link) {
+        numbers.insert(url, std.link(url)[#counter])
         counter += 1
       }
     }
   }
 
-  displays
+  link => {
+    if should-link-be-numbered(link) {
+      numbers.at(link.dest)
+    } else {
+      link
+    }
+  }
 }
 
 /// Partitions a sequence (taken from a list item) into the initial text part
@@ -46,7 +54,7 @@
 )
 
 /// Converts an item into a row in the resulting table.
-#let make-table-row(item, index, link-displays) = {
+#let make-table-row(item, index, format-link) = {
   let (open, label, close, ..rest) = item.body.children
 
   let item-text = none
@@ -75,7 +83,7 @@
       #set par(justify: false)
       #set text(number-type: "lining")
       #context {
-        let links = links.map(link => link-displays.at(link.dest)).join([, ])
+        let links = links.map(format-link).join([, ])
         let width = measure(links).width
         block(width: calc.min(width, 55pt), links)
       }
@@ -101,7 +109,7 @@
     .flatten()
     .map(item => item.body)
 
-  let link-map = make-link-displays(links)
+  let format-link = link-formatter(links)
 
   if make-heading {
     heading(numbering: none, depth: 2, translate("Föredragningslista", "Agenda"))
@@ -125,7 +133,7 @@
     ..unstyled
       .children
       .enumerate(start: 1)
-      .map(((index, item)) => make-table-row(item, index, link-map))
+      .map(((index, item)) => make-table-row(item, index, format-link))
       .flatten(),
   )
 }

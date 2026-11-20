@@ -1,6 +1,6 @@
 #import "../plain-document.typ": plain-document
 #import "../../lib/_mod.typ": *
-#import "../../lib/utils/date.typ": format-date
+#import "../../lib/utils/date.typ": format-date, format-date-verbose
 
 /// Creates an agenda (föredragningslista) document.
 ///
@@ -68,7 +68,7 @@
   required(meeting, "meeting", fn: "agenda", hint: "short meeting identifier, e.g. meeting: \"HTM1\"")
 
   let agenda-name = translate("Föredragningslista", "Agenda")
-  let meeting-time = context custom-date-format(time, pattern: "full", lang: text.lang)
+  let meeting-time = context format-date-verbose(time)
   let meeting-type = detect-meeting-type(meeting, meeting-type)
 
   show: plain-document.with(
