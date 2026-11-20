@@ -13,16 +13,7 @@ bless *tests:
         --font-path '{{font_directory}}' \
         -- {{tests}}
 
-# Build all examples
-build-examples:
-    #!/bin/sh
-    set -e
-
-    for file in {{examples}}; do
-        just build-example "$file"
-    done
-
-# Cleans non-tracked output
+# Clean non-tracked output
 clean:
     tt util clean
 
@@ -35,29 +26,38 @@ compile-source-files:
         just compile-source-file "$file"
     done
 
-# Build the documentation
-build-documentation:
-    echo 'Building the {{template_documentation}} documentation...'
-    just compile '{{template_documentation}}'
-
-# Installs the fonts locally for the current user
+# Install the fonts locally for the current user
 install-fonts:
     fonts/install
 
 # Build all files and run all tests
-test: compile-source-files build-examples build-documentation tytanic
+test: compile-source-files compile-documentation tytanic
 
 # Run all tytanic tests
 tytanic:
     tt run \
         --font-path '{{font_directory}}'
 
-# Uninstalls the fonts as installed by `install-fonts`
+# Uninstall the fonts as installed by `install-fonts`
 uninstall-fonts:
     fonts/install uninstall
 
-# Updates the examples from the tests
+# Update the examples from the tests
 update-examples: copy-examples build-examples
+
+# Update the documentation
+update-documentation:
+    echo 'Building the {{template_documentation}} documentation...'
+    just compile '{{template_documentation}}'
+
+[private]
+build-examples:
+    #!/bin/sh
+    set -e
+
+    for file in {{examples}}; do
+        just build-example "$file"
+    done
 
 [private]
 compile input output='':
@@ -79,6 +79,10 @@ copy-examples:
             "$test/test.typ" \
             > "examples/src/$(basename "$test").typ"
     done
+
+[private]
+compile-documentation:
+    just compile-source-file '{{template_documentation}}'
 
 [private]
 compile-source-file file:
