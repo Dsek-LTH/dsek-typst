@@ -47,22 +47,17 @@
 
 /// Converts an item into a row in the resulting table.
 #let make-table-row(item, index, link-displays) = {
-  let (open, label, close, ..rest) = item.body.children
+  let (open, ..rest) = item.body.children
 
-  let item-text = none
-  let links = none
+  assert.eq(open.text, "[")
 
-  assert(open.text == "[")
+  let closing-bracket-index = rest.position(child => child.has("text") and child.text == "]")
+  assert(closing-bracket-index != none)
 
-  if label.text == "]" {
-    rest = (close, ..rest)
+  let label = rest.slice(0, closing-bracket-index).join()
+  let rest = rest.slice(closing-bracket-index + 1)
 
-    (item-text, links) = partition-text-and-links(rest)
-    label = ""
-  } else {
-    assert(close.text == "]")
-    (item-text, links) = partition-text-and-links(rest)
-  }
+  let (item-text, links) = partition-text-and-links(rest)
 
   (
     [§#index],
