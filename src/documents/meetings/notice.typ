@@ -1,6 +1,6 @@
 #import "../plain-document.typ": plain-document
 #import "../../lib/_mod.typ": *
-#import "../../lib/utils/date.typ": format-date-verbose, format-time
+#import "../../lib/utils/date.typ": format-date, format-date-verbose, format-time
 
 /// Creates a meeting notice/summons (kallelse) document.
 ///

@@ -77,7 +77,7 @@
   #place(bottom + right, dy: 125pt, dx: 125pt)[
     #box(scale(150%, graphics.dsek-logo))
   ]
-  #rect(
+  #context rect(
     width: page.width + 2pt,
     height: page.height + 1pt,
     fill: rgb(255, 255, 255, 245),
@@ -131,7 +131,10 @@
   date: datetime.today(),
   use-cover-page: false,
   body,
-) = context {
+) = {
+  assert(title != none, message: "no title set")
+  assert(lang == "sv" or lang == "en", message: "language `" + lang + "` is not supported")
+
   set document(
     title: title,
     date: date,
@@ -180,8 +183,10 @@
   // TODO: Pick and set a monospace font for code-esque excerpts.
   set text(lang: lang, font: serif, size: 11pt, number-type: "old-style")
 
+  let paragraph-spacing = 1.2em
+
   set par(
-    spacing: 1.2em,
+    spacing: paragraph-spacing,
     leading: 0.55em,
     justify: true,
   )
@@ -202,9 +207,9 @@
     page(outline(depth: 2))
   }
 
-  set list(spacing: par.spacing, indent: 1em)
-  set enum(spacing: par.spacing, indent: 1em)
-  set terms(spacing: par.spacing)
+  set list(spacing: paragraph-spacing, indent: 1em)
+  set enum(spacing: paragraph-spacing, indent: 1em)
+  set terms(spacing: paragraph-spacing)
 
   if not use-cover-page {
     std.title()

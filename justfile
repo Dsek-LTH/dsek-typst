@@ -7,17 +7,15 @@ examples := "examples/src/*.typ"
 font_directory := "fonts"
 source_directory := "src"
 
-# Build all files and run all tests
-test: compile-source-files build-examples build-documentation
+# Bless the output of some (or all) tests
+bless *tests:
+    tt update \
+        --font-path '{{font_directory}}' \
+        -- {{tests}}
 
-# Build all examples
-build-examples:
-    #!/bin/sh
-    set -e
-
-    for file in {{examples}}; do
-        just build-example "$file"
-    done
+# Clean non-tracked output
+clean:
+    tt util clean
 
 # Make sure all source files compile
 compile-source-files:
@@ -28,28 +26,38 @@ compile-source-files:
         just compile-source-file "$file"
     done
 
-# Build the documentation
-build-documentation:
-    echo 'Building the {{template_documentation}} documentation...'
-    just compile '{{template_documentation}}'
-
-# Installs the fonts locally for the current user
+# Install the fonts locally for the current user
 install-fonts:
     fonts/install
 
-# Uninstalls the fonts as installed by `install-fonts`
+# Build all files and run all tests
+test: compile-source-files compile-documentation tytanic
+
+# Run all tytanic tests
+tytanic:
+    tt run \
+        --font-path '{{font_directory}}'
+
+# Uninstall the fonts as installed by `install-fonts`
 uninstall-fonts:
     fonts/install uninstall
 
-[private]
-build-example example:
-    echo 'Building the {{file_stem(example)}} example...'
-    just compile '{{example}}' '{{example_directory / file_stem(example)}}'.pdf
+# Update the examples from the tests
+update-examples: copy-examples build-examples
+
+# Update the documentation
+update-documentation:
+    echo 'Building the {{template_documentation}} documentation...'
+    just compile '{{template_documentation}}'
 
 [private]
-compile-source-file file:
-    echo 'Compiling {{file}}...'
-    just compile '{{file}}' -
+build-examples:
+    #!/bin/sh
+    set -e
+
+    for file in {{examples}}; do
+        just build-example "$file"
+    done
 
 [private]
 compile input output='':
@@ -58,3 +66,30 @@ compile input output='':
         --font-path '{{font_directory}}' \
         '{{input}}' {{output}} \
         > /dev/null
+
+[private]
+copy-examples:
+    #!/bin/sh
+    set -e
+
+    package_version=$(sed -n 's|^version = "\(.*\)"$|\1|p' typst.toml)
+
+    for test in tests/examples/*/; do
+        sed "s|/src/lib.typ|@preview/dsek:$package_version|g" \
+            "$test/test.typ" \
+            > "examples/src/$(basename "$test").typ"
+    done
+
+[private]
+compile-documentation:
+    just compile-source-file '{{template_documentation}}'
+
+[private]
+compile-source-file file:
+    echo 'Compiling {{file}}...'
+    just compile '{{file}}' -
+
+[private]
+build-example example:
+    echo 'Building the {{file_stem(example)}} example...'
+    just compile '{{example}}' '{{example_directory / file_stem(example)}}'.pdf
