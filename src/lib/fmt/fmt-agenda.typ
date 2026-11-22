@@ -115,21 +115,25 @@
     heading(numbering: none, depth: 2, translate("Föredragningslista", "Agenda"))
   }
 
+  let header-row(..cells) = grid.header(
+    grid.hline(stroke: 0.4pt, position: bottom),
+    ..cells.map(c => grid.cell(inset: (bottom: 0.5em))[*#c*]),
+    v(0em),
+  )
+
   v(1em)
   context grid(
     columns: (auto, 1fr, auto, auto),
     stroke: none,
-    row-gutter: (0.5em, 0.5em, par.leading),
+    row-gutter: (0em, 0.5em, par.leading),
     column-gutter: 1em,
 
-    [*#sym.numero*],
-    [*#translate("Ärende", "Item")*],
-    [*#translate("Åtgärd", "Action")*],
-    [*#translate("Bilaga", "Annex")*],
-
-    grid.hline(stroke: 0.4pt),
-
-    grid.cell(colspan: 4)[],
+    header-row(
+      sym.numero,
+      translate("Ärende", "Item"),
+      translate("Åtgärd", "Action"),
+      translate("Bilaga", "Annex"),
+    ),
     ..unstyled
       .children
       .enumerate(start: 1)
