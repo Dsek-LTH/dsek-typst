@@ -180,7 +180,7 @@
   lang: "sv",
   date: datetime.today(),
   body,
-) = context {
+) = {
   required(meeting, "meeting", fn: "minutes", hint: "short meeting identifier, e.g. meeting: \"HTM1\"")
   required(
     attendees,
